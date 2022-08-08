@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
         
         ),
       title: 'Flutter AWS Amplify',
-      home:  true? HomePage() : SignIn()  ,
+      home:  loginState? HomePage() : SignIn()  ,
       
     );
   }

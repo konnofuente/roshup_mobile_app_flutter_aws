@@ -43,13 +43,22 @@ class AuthServices {
     }
   }
 
-  Future<void> userSignIn(email, pwd, context) async {
+  Future<void> userSignIn(phno, pwd, context) async {
     try{
-      SignInResult res = await Amplify.Auth.signIn(username: email, password: pwd);
+      SignInResult res = await Amplify.Auth.signIn(username:phno, password: pwd);
       Provider.of<UserLoginStatus>(context, listen: false).changeUserStatus(res.isSignedIn); 
     } on AuthException catch (e) {
       print(e.message);
     }
   }
+
+Future<void> signOutCurrentUser(context) async {
+  try {
+    Amplify.Auth.signOut();
+     Provider.of<UserLoginStatus>(context).changeUserStatus(false); 
+  } on AuthException catch (e) {
+    print(e.message);
+  }
+}
   
 }
