@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:roshup_mobile_app_flutter_aws/services/auth.dart';
 
 import 'SignUp.dart';
@@ -55,33 +56,21 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   children: [
                     SizedBox(height: 20),
-                    TextFormField(
-                        decoration: InputDecoration(
-                          prefixIcon:
-                              Icon(Icons.phone_android, color: Colors.blue),
-                          labelText: 'Phone Number',
-                          hintText: "",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              borderSide: BorderSide(color: Colors.grey)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              borderSide: BorderSide(color: Colors.blue)),
+                    IntlPhoneField(
+                      decoration: const InputDecoration(
+                        labelText: 'Phone Number',
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(),
                         ),
-                        keyboardType: TextInputType.number,
-                        // obscureText: true,
-                        validator: (val) =>
-                            val!.isEmpty ? 'password is required' : null,
-                        onChanged: (val) {
-                          setState(() => phone_num = val);
-                        }),
+                      ),
+                      initialCountryCode: 'IN',
+                      onChanged: (phone) {
+                        setState(() => phone_num = phone.completeNumber);
+                      },
+                    ),
                     SizedBox(height: 20),
                     TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.vpn_key, color: Colors.blue),
                           labelText: 'Password',
                           hintText: "",
@@ -109,13 +98,14 @@ class _SignInState extends State<SignIn> {
                       onPressed: () async {
                         print('let try');
                         AuthServices().userSignIn(phone_num, pwd, context);
+                        print('phone number:${phone_num} and paswword ${pwd}');
                       },
                     ),
                   ],
                 ),
               ),
               TextButton(
-                child: Text(
+                child: const Text(
                   'Don\'t have an account?',
                   style: TextStyle(color: Colors.blue),
                 ),

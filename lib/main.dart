@@ -12,7 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => UserLoginStatus(userLoggedIn: false)),
+          create: (_) => UserLoginStatus(userLoggedIn: false,isActExist: false)),
       ],
     child: MyApp()));
 }
