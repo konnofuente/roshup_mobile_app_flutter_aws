@@ -20,23 +20,32 @@ class ProfileScreen extends StatelessWidget {
       body:  ListView(
     children: [
       // User card
-      BigUserCard(
+      SmallUserCard(
         cardColor: Color.fromARGB(255, 255, 254, 254),
-        userName: "Babacar Ndong",
-        userProfilePic: AssetImage(" "),
-        cardActionWidget: SettingsItem(
-          icons: Icons.edit,
-          iconStyle: IconStyle(
-            withBackground: true,
-            // borderRadius: 50,
-            backgroundColor: Colors.yellow[600],
-          ),
-          title: "Modify",
-          subtitle: "Tap to change your data",
-          onTap: () {
-            print("OK");
+        userName: "Fiston",
+        userProfilePic: const AssetImage("assets/images/IMG_2127.JPG"),
+        userMoreInfo: 
+        Text(
+          'Click To Modify User info',
+          style: TextStyle(
+            fontSize: 10),
+            ),
+         onTap: () { 
+           print("OK");
           },
-        ),
+        // cardActionWidget: SettingsItem(
+        //   icons: Icons.edit,
+        //   iconStyle: IconStyle(
+        //     withBackground: true,
+        //     // borderRadius: 50,
+        //     backgroundColor: Colors.yellow[600],
+        //   ),
+        //   title: "Modify",
+        //   subtitle: "Tap to change your data",
+        //   onTap: () {
+        //     print("OK");
+        //   },
+        // ),
       ),
       SettingsGroup(
         items: [
