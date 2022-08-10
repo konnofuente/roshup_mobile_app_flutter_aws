@@ -6,5 +6,8 @@ Local Authantification
 
     Medium:https://medium.flutterdevs.com/local-authentication-in-flutter-1dc27647060c
 
+Setting view:
+    https://pub.dev/packages/babstrap_settings_screen
+
 
  

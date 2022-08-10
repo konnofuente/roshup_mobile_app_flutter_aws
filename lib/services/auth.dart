@@ -44,11 +44,43 @@ class AuthServices {
   }
 
   Future<void> userSignIn(phno, pwd, context) async {
+      //     Future<void> showalertDialogue() async {
+      //   Widget okButton = FlatButton(
+      //     child: Text("OK"),
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //   );
+
+      //   AlertDialog alert = AlertDialog(
+      //     title: Text("LOGIN ERROR"),
+      //     content: Text("Credential Enter are Invalid "),
+      //     actions: [
+      //       okButton,
+      //     ],
+      //   );
+      //   showDialog(
+      //     context: context,
+      //     builder: (BuildContext context) {
+      //       return alert;
+      //     },
+      //   );
+      // }
+      
     try {
       SignInResult res =
           await Amplify.Auth.signIn(username: phno, password: pwd);
+
       Provider.of<UserLoginStatus>(context, listen: false)
           .changeUserStatus(res.isSignedIn);
+      Provider.of<UserLoginStatus>(context, listen: false)
+          .changeActExist(res.isSignedIn);
+
+      // bool alertDia = res.isSignedIn;
+      // alertDia ? '' : showalertDialogue();
+      // print('the alert box is ${alertDia}   !!!!!!!!!!!!!!!!!!');
+
+
     } on AuthException catch (e) {
       print(e.message);
     }
@@ -57,7 +89,8 @@ class AuthServices {
   Future<void> signOutCurrentUser(context) async {
     try {
       Amplify.Auth.signOut();
-      Provider.of<UserLoginStatus>(context, listen: false).changeUserStatus(false);
+      Provider.of<UserLoginStatus>(context, listen: false)
+          .changeUserStatus(false);
       print('logout complete');
     } on AuthException catch (e) {
       print(e.message);

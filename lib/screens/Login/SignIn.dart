@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:provider/provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/services/auth.dart';
 
+import '../../services/provider.dart';
 import 'SignUp.dart';
 
 class SignIn extends StatefulWidget {
@@ -13,7 +15,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
-  bool loading = false;
+  late bool alert;
   late String email, pwd, phone_num;
 
   @override
@@ -63,7 +65,7 @@ class _SignInState extends State<SignIn> {
                           borderSide: BorderSide(),
                         ),
                       ),
-                      initialCountryCode: 'IN',
+                      initialCountryCode: 'CM',
                       onChanged: (phone) {
                         setState(() => phone_num = phone.completeNumber);
                       },
@@ -98,7 +100,13 @@ class _SignInState extends State<SignIn> {
                       onPressed: () async {
                         print('let try');
                         AuthServices().userSignIn(phone_num, pwd, context);
-                        print('phone number:${phone_num} and paswword ${pwd}');
+                        var alertDia =
+                            Provider.of<UserLoginStatus>(context, listen: false)
+                                .isActExist;
+                        // alertDia ? '' : showalertDialogue();
+                        print(
+                            'the alert box is ${alertDia}   !!!!!!!!!!!!!!!!!!');
+                        print('phone number: ${phone_num} and paswword ${pwd}');
                       },
                     ),
                   ],
@@ -118,6 +126,31 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
+    );
+  }
+
+
+  Future<void> showalertDialogue() async {
+
+      Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("LOGIN ERROR"),
+      content: Text("Credential Enter are Invalid "),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
