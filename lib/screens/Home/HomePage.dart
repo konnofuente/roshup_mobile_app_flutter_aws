@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_screens[_selectedScreenIndex]["title"]),
+        
       ),
       body: _screens[_selectedScreenIndex]["screen"],
       bottomNavigationBar: BottomNavigationBar(

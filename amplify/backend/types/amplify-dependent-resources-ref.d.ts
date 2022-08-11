@@ -10,5 +10,12 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientID": "string",
             "CreatedSNSRole": "string"
         }
+    },
+    "api": {
+        "Roshub": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
     }
 }
