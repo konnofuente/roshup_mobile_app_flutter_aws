@@ -20,14 +20,16 @@ class ServiceGridView extends StatelessWidget {
           removeTop: true,
           child: GridView(
             padding: const EdgeInsets.all(25),
+
             // ignore: sort_child_properties_last
             children: state.allService
                 .map((serviceItem) => ServiceItem(
-                    name: serviceItem.name, amoungt: serviceItem.amoungt))
+                    service: serviceItem,))
                 .toList(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 20,
+               crossAxisSpacing:20,
             ),
           ),
         );

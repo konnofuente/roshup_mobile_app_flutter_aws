@@ -10,15 +10,16 @@ import '../../widgets/service_grid_view.dart';
 class HostScreen extends StatelessWidget {
   const HostScreen({Key? key}) : super(key: key);
 
-    void _addTask(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) => SingleChildScrollView(
-            child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddServiceScreen())));
-  }
+  //   void _addTask(BuildContext context) {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (context) => SingleChildScrollView(
+  //           child: Container(
+  //               padding: EdgeInsets.only(
+  //                   bottom: MediaQuery.of(context).viewInsets.bottom),
+  //               child: AddServiceScreen())));
+  // }
+
 
   @override
   Widget build(BuildContext context) {

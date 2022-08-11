@@ -54,15 +54,16 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                           name: titleController.text,
                           // name:input_name,
                           // amoungt: input_agt,
-                          amoungt: int.parse(amoungtController.text)
-                          );
+                          amoungt: int.parse(amoungtController.text));
                       titleController.text.isNotEmpty
                           ? context
                               .read<ServicesBloc>()
                               .add(AddServices(service: Service))
                           : print(
                               'No value entered!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1');
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
+                      titleController.clear();
+                      amoungtController.clear();
                     },
                     child: const Text('Add Service'))
               ],
