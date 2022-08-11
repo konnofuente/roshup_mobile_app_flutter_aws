@@ -41,12 +41,30 @@ class SERVICE extends Model {
     return id;
   }
   
-  String? get name {
-    return _name;
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
   }
   
-  int? get amoungt {
-    return _amoungt;
+  int get amoungt {
+    try {
+      return _amoungt!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
   }
   
   TemporalDateTime? get createdAt {
@@ -57,9 +75,9 @@ class SERVICE extends Model {
     return _updatedAt;
   }
   
-  const SERVICE._internal({required this.id, name, amoungt, createdAt, updatedAt}): _name = name, _amoungt = amoungt, _createdAt = createdAt, _updatedAt = updatedAt;
+  const SERVICE._internal({required this.id, required name, required amoungt, createdAt, updatedAt}): _name = name, _amoungt = amoungt, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory SERVICE({String? id, String? name, int? amoungt}) {
+  factory SERVICE({String? id, required String name, required int amoungt}) {
     return SERVICE._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
@@ -137,13 +155,13 @@ class SERVICE extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: SERVICE.NAME,
-      isRequired: false,
+      isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: SERVICE.AMOUNGT,
-      isRequired: false,
+      isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.int)
     ));
     

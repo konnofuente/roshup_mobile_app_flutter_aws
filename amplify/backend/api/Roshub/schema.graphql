@@ -1,5 +1,5 @@
 type SERVICE @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String
-  amoungt: Int
-}
+  name: String!
+  amoungt: Int!
+} 
