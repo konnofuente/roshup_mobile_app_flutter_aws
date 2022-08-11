@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/Home/ActivityScreen.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/Home/ChatScreen.dart';
-import 'package:roshup_mobile_app_flutter_aws/screens/Home/HostScreen.dart';
-import 'package:roshup_mobile_app_flutter_aws/screens/Home/ProfileScreen.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/Home/HostScreen/HostScreen.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/Home/ProfileScreen/ProfileScreen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

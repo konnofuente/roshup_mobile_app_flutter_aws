@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:roshup_mobile_app_flutter_aws/models/ModelProvider.dart';
 import 'package:roshup_mobile_app_flutter_aws/widgets/service_item.dart';
 
-import '../../blocs/bloc_export.dart';
-import '../../widgets/add_service.dart';
-import '../../widgets/service_grid_view.dart';
+import '../../../blocs/bloc_export.dart';
+import '../../../widgets/add_service.dart';
+import '../../../widgets/service_grid_view.dart';
 
 class HostScreen extends StatelessWidget {
   const HostScreen({Key? key}) : super(key: key);
