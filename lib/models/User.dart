@@ -153,7 +153,7 @@ class User extends Model {
     'id': id, 'name': _name, 'phone_number': _phone_number, 'email': _email, 'image': _image, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
-  static final QueryField ID = QueryField(fieldName: "id");
+  static final QueryField ID = QueryField(fieldName: "user.id");
   static final QueryField NAME = QueryField(fieldName: "name");
   static final QueryField PHONE_NUMBER = QueryField(fieldName: "phone_number");
   static final QueryField EMAIL = QueryField(fieldName: "email");

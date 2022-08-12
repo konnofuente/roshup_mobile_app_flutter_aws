@@ -133,7 +133,7 @@ class SERVICE extends Model {
     'id': id, 'name': _name, 'amoungt': _amoungt, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
-  static final QueryField ID = QueryField(fieldName: "id");
+  static final QueryField ID = QueryField(fieldName: "sERVICE.id");
   static final QueryField NAME = QueryField(fieldName: "name");
   static final QueryField AMOUNGT = QueryField(fieldName: "amoungt");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
