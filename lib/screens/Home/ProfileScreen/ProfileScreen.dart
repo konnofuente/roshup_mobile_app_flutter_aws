@@ -10,6 +10,8 @@ import 'package:roshup_mobile_app_flutter_aws/screens/Home/ProfileScreen/UserInf
 import 'package:roshup_mobile_app_flutter_aws/services/auth.dart';
 import 'package:settings_ui/settings_ui.dart';
 
+import '../../../blocs/bloc/user_state.dart';
+import '../../../blocs/bloc_export.dart';
 import '../../../services/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -17,104 +19,109 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          // User card
-          SmallUserCard(
-            cardColor: Color.fromARGB(255, 255, 254, 254),
-            userName: "Fiston",
-            userProfilePic: const AssetImage("assets/images/IMG_2127.JPG"),
-            userMoreInfo: Text(
-              'Click To Modify User info',
-              style: TextStyle(fontSize: 10),
-            ),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()));
-            },
-            // cardActionWidget: SettingsItem(
-            //   icons: Icons.edit,
-            //   iconStyle: IconStyle(
-            //     withBackground: true,
-            //     // borderRadius: 50,
-            //     backgroundColor: Colors.yellow[600],
-            //   ),
-            //   title: "Modify",
-            //   subtitle: "Tap to change your data",
-            //   onTap: () {
-            //     print("OK");
-            //   },
-            // ),
-          ),
-          SettingsGroup(
-            items: [
-              SettingsItem(
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: ListView(
+            children: [
+              // User card
+              SmallUserCard(
+                cardColor: Color.fromARGB(255, 255, 254, 254),
+                userName: state.allUsers[0].name,
+                userProfilePic: const AssetImage("assets/images/IMG_2127.JPG"),
+                userMoreInfo: const Text(
+                  'Click To Modify User info',
+                  style: TextStyle(fontSize: 10),
+                  textAlign: TextAlign.left,
+                ),
                 onTap: () {
-                  // fetchAuthSession();
-                  UserInfor();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfilePage()));
                 },
-                icons: Icons.person_pin_circle,
-                iconStyle: IconStyle(),
-                title: 'Services',
-                subtitle: "Manage the Service you want to offer",
+                // cardActionWidget: SettingsItem(
+                //   icons: Icons.edit,
+                //   iconStyle: IconStyle(
+                //     withBackground: true,
+                //     // borderRadius: 50,
+                //     backgroundColor: Colors.yellow[600],
+                //   ),
+                //   title: "Modify",
+                //   subtitle: "Tap to change your data",
+                //   onTap: () {
+                //     print("OK");
+                //   },
+                // ),
               ),
-              SettingsItem(
-                onTap: () {},
-                icons: Icons.dark_mode_rounded,
-                iconStyle: IconStyle(
-                  iconsColor: Colors.white,
-                  withBackground: true,
-                  backgroundColor: Colors.red,
-                ),
-                title: 'Dark mode',
-                subtitle: "Automatic",
-                trailing: Switch.adaptive(
-                  value: false,
-                  onChanged: (value) {},
-                ),
+              SettingsGroup(
+                items: [
+                  SettingsItem(
+                    onTap: () {
+                      // fetchAuthSession();
+                      UserInfor();
+                    },
+                    icons: Icons.person_pin_circle,
+                    iconStyle: IconStyle(),
+                    title: 'Services',
+                    subtitle: "Manage the Service you want to offer",
+                  ),
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.dark_mode_rounded,
+                    iconStyle: IconStyle(
+                      iconsColor: Colors.white,
+                      withBackground: true,
+                      backgroundColor: Colors.red,
+                    ),
+                    title: 'Dark mode',
+                    subtitle: "Automatic",
+                    trailing: Switch.adaptive(
+                      value: false,
+                      onChanged: (value) {},
+                    ),
+                  ),
+                ],
+              ),
+              SettingsGroup(
+                items: [
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.info_rounded,
+                    iconStyle: IconStyle(
+                      backgroundColor: Colors.purple,
+                    ),
+                    title: 'Payment Methode',
+                    subtitle: "Manage your OM/MOMO payment methode",
+                  ),
+                ],
+              ),
+              // You can add a settings title
+              SettingsGroup(
+                items: [
+                  SettingsItem(
+                    onTap: () {
+                      print('let try');
+                      AuthServices().signOutCurrentUser(context);
+                      Provider.of<UserLoginStatus>(context, listen: false)
+                          .changeUserStatus(false);
+                    },
+                    icons: Icons.exit_to_app_rounded,
+                    title: "Sign Out",
+                  ),
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.abc,
+                    title: "Delete account",
+                    titleStyle: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          SettingsGroup(
-            items: [
-              SettingsItem(
-                onTap: () {},
-                icons: Icons.info_rounded,
-                iconStyle: IconStyle(
-                  backgroundColor: Colors.purple,
-                ),
-                title: 'Payment Methode',
-                subtitle: "Manage your OM/MOMO payment methode",
-              ),
-            ],
-          ),
-          // You can add a settings title
-          SettingsGroup(
-            items: [
-              SettingsItem(
-                onTap: () {
-                  print('let try');
-                  AuthServices().signOutCurrentUser(context);
-                  Provider.of<UserLoginStatus>(context, listen: false)
-                      .changeUserStatus(false);
-                },
-                icons: Icons.exit_to_app_rounded,
-                title: "Sign Out",
-              ),
-              SettingsItem(
-                onTap: () {},
-                icons: Icons.abc,
-                title: "Delete account",
-                titleStyle: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -126,7 +133,9 @@ class ProfileScreen extends StatelessWidget {
       final result = await Amplify.Auth.fetchUserAttributes();
       for (final element in result) {
         print('key: ${element.userAttributeKey}; value: ${element.value}');
-        element.value.contains('true') ||element.value.contains('false') ? null : value.addAll([element.value]);     
+        element.value.contains('true') || element.value.contains('false')
+            ? null
+            : value.addAll([element.value]);
       }
       print(value);
     } on AuthException catch (e) {

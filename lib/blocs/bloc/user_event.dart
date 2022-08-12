@@ -16,14 +16,24 @@ class AddUsers extends UserEvent {
   List<Object> get props => [users];
 }
 
+// class UpdateUsersName extends UserEvent {
+//   final User users;
+//   const UpdateUsersName({
+//     required this.users,
+//   });
+//   @override
+//   List<Object> get props => [users];
+// }
 
-class UpdateUsers extends UserEvent {
+class UpdateUsersName extends UserEvent {
+  final String name;
   final User users;
-  const UpdateUsers({
+  const UpdateUsersName( {
+    required this.name,
     required this.users,
   });
   @override
-  List<Object> get props => [users];
+  List<Object> get props => [{
+    name,users
+  }];
 }
-
-
