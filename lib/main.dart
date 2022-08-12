@@ -26,6 +26,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late List<String> value = [];
+  late User user;
   bool _amplifyConfigured = false;
   bool _amplifyAuthComplete = false;
 
@@ -42,7 +44,9 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> loadAppConfig() async {
     await _configureAmplify();
+    // await UserInfor();
   }
+
 
   Future<void> _configureAmplify() async {
     final datastorePlugin =
@@ -84,8 +88,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     var loginState = Provider.of<UserLoginStatus>(context).userLoggedIn;
 
-    return BlocProvider(
-      create: (context) => ServicesBloc()..add(AddServices(service: SERVICE(name:'Print Document',amoungt: 20000))),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => UserBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ServicesBloc(),
+        ),
+      ],
       child: MaterialApp(
         theme: ThemeData(),
         title: 'Flutter AWS Amplify',

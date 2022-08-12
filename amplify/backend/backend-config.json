@@ -53,5 +53,12 @@
         }
       }
     }
+  },
+  "storage": {
+    "s3roshubstoragea84f3dc5": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }

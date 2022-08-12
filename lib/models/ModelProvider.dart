@@ -21,14 +21,16 @@
 
 import 'package:amplify_core/amplify_core.dart';
 import 'SERVICE.dart';
+import 'User.dart';
 
 export 'SERVICE.dart';
+export 'User.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "d33d6eec91790a0f3c8c04736953d1b7";
+  String version = "9ca12d387c5be9e3691d287a1646437d";
   @override
-  List<ModelSchema> modelSchemas = [SERVICE.schema];
+  List<ModelSchema> modelSchemas = [SERVICE.schema, User.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
   List<ModelSchema> customTypeSchemas = [];
@@ -39,6 +41,8 @@ class ModelProvider implements ModelProviderInterface {
     switch(modelName) {
       case "SERVICE":
         return SERVICE.classType;
+      case "User":
+        return User.classType;
       default:
         throw Exception("Failed to find model in model provider for model name: " + modelName);
     }

@@ -1,4 +1,7 @@
 // screen_a.dart
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +30,6 @@ class ProfileScreen extends StatelessWidget {
               style: TextStyle(fontSize: 10),
             ),
             onTap: () {
-              
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ProfilePage()));
             },
@@ -49,6 +51,7 @@ class ProfileScreen extends StatelessWidget {
             items: [
               SettingsItem(
                 onTap: () {
+                  // fetchAuthSession();
                   UserInfor();
                 },
                 icons: Icons.person_pin_circle,
@@ -116,11 +119,30 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Future<void> UserInfor() async {
+    List<String> value = [];
+    int i = 0;
     try {
+      print('userinfo');
       final result = await Amplify.Auth.fetchUserAttributes();
       for (final element in result) {
         print('key: ${element.userAttributeKey}; value: ${element.value}');
+        element.value.contains('true') ||element.value.contains('false') ? null : value.addAll([element.value]);     
       }
+      print(value);
+    } on AuthException catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<void> fetchAuthSession() async {
+    try {
+      final result = await Amplify.Auth.fetchAuthSession(
+        options: CognitoSessionOptions(getAWSCredentials: true),
+      );
+      String identityId = (result as CognitoAuthSession).identityId!;
+      // String email = (result as CognitoUserAttributeKey.email);
+      print('identityId: $identityId');
+      // print('email: $email');
     } on AuthException catch (e) {
       print(e.message);
     }

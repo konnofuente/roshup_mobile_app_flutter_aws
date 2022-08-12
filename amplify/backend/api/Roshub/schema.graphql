@@ -1,5 +1,14 @@
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  phone_number: String!
+  email: String!
+  image: String
+}
+
 type SERVICE @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   amoungt: Int!
-} 
+}
+ 
