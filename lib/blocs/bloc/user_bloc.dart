@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../models/User.dart';
+import '../../screens/Login/UserVerification.dart';
 import 'user_state.dart';
 
 part 'user_event.dart';
@@ -13,6 +15,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(const UserState()) {
     on<AddUsers>(_onAddUser);
     on<UpdateUsersName>(_onUpdateUserName);
+    on<UpdatePhoneNumber>(_onUpdatePhoneNumber);
+    on<UpdateUserEmail>(_onUpdateUserEmail);
   }
 
   Future<FutureOr<void>> _onAddUser(
@@ -61,7 +65,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   // }
 
-  Future<FutureOr<void>> _onUpdateUserName(
+  Future<void> _onUpdateUserName(
       UpdateUsersName event, Emitter<UserState> emit) async {
     final state = this.state;
     final name = event.name;
@@ -86,10 +90,67 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       print(e.message);
     }
 
-       emit(UserState(
-      allUsers:alluser
-      ));
+    emit(UserState(allUsers: alluser));
   }
 
-     
+  Future<FutureOr<void>> _onUpdatePhoneNumber(
+      UpdatePhoneNumber event, Emitter<UserState> emit) async {
+    final state = this.state;
+    final phone_number = event.phone_number;
+    final user = event.users;
+    final index = state.allUsers.indexOf(user);
+    List<User> alluser = List.from(state.allUsers)..remove(user);
+    alluser.insert(index, user.copyWith(phone_number: phone_number));
+
+    try {
+      final result = await Amplify.Auth.updateUserAttribute(
+        userAttributeKey: CognitoUserAttributeKey.phoneNumber,
+        value: phone_number,
+      );
+      if (result.nextStep.updateAttributeStep ==
+          'CONFIRM_ATTRIBUTE_WITH_CODE') {
+        var destination = result.nextStep.codeDeliveryDetails?.destination;
+        print('Confirmation code sent to $destination');
+      } else {
+        print('Update completed');
+      }
+    } on AmplifyException catch (e) {
+      print(e.message);
+    }
+
+    emit(UserState(allUsers: alluser));
+  }
+
+  Future<FutureOr<void>> _onUpdateUserEmail(
+      UpdateUserEmail event, Emitter<UserState> emit) async {
+    final state = this.state;
+    final email = event.email;
+    final user = event.users;
+    final context = event.context;
+    final index = state.allUsers.indexOf(user);
+    List<User> alluser = List.from(state.allUsers)..remove(user);
+    alluser.insert(index, user.copyWith(email: email));
+
+    try {
+      final result = await Amplify.Auth.updateUserAttribute(
+        userAttributeKey: CognitoUserAttributeKey.email,
+        value: email,
+      );
+      if (result.nextStep.updateAttributeStep ==
+          'CONFIRM_ATTRIBUTE_WITH_CODE') {
+        var destination = result.nextStep.codeDeliveryDetails?.destination;
+        print('Confirmation code sent to $destination');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => UserVerification(phno: event.users.phone_number)));
+      } else {
+        print('Update completed');
+      }
+    } on AmplifyException catch (e) {
+      print(e.message);
+    }
+
+    emit(UserState(allUsers: alluser));
+  }
 }
