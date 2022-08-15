@@ -15,8 +15,9 @@
     ],
     "conflictResolution": {
       "defaultResolutionStrategy": {
-        "type": "AUTOMERGE"
+        "type": "OPTIMISTIC_CONCURRENCY"
       }
-    }
+    },
+    "gqlSchemaPath": "C:\\Users\\Le boss\\Desktop\\School\\flutter\\Stage\\2_Prog\\roshup_mobile_app_flutter_aws\\amplify\\backend\\api\\Roshub\\schema.graphql"
   }
 }

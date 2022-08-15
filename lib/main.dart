@@ -1,3 +1,4 @@
+import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -49,10 +50,16 @@ class _MyAppState extends State<MyApp> {
 
 
   Future<void> _configureAmplify() async {
+
+
+
     final datastorePlugin =
         AmplifyDataStore(modelProvider: ModelProvider.instance);
+    final api = AmplifyAPI();
     await Amplify.addPlugin(AmplifyAuthCognito());
     await Amplify.addPlugin(datastorePlugin);
+    await Amplify.addPlugin(api);
+    
 
     // Once Plugins are added, configure Amplify
     await Amplify.configure(amplifyconfig);
@@ -64,6 +71,8 @@ class _MyAppState extends State<MyApp> {
     } catch (e) {
       print(e);
     }
+
+
   }
 
   Future<void> getAuthStatus() async {

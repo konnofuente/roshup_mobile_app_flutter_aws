@@ -1,0 +1,121 @@
+type User{
+    id:String;
+    name:String;
+    phone_number:String;
+    email:String;
+    image:String;
+    password:String;
+    role:Role;
+    payment_type:[PayementType];
+
+}
+
+type PROVIDER{
+    id:string;
+    user_profile:User;
+    services:[string]; #id of different services the user can provide
+    rating:number;
+    available:bool;
+}
+
+
+
+enum Role{
+    USER,
+    PROVIDER,
+    BOTH,
+}
+
+type payment{
+    id:string;
+    name:string;
+    company:string;
+    currency:string;
+}
+
+type Service{
+    id:String;
+    name:String;
+    amoungt:float;
+    description:String; 
+}
+
+type NeedRequest{
+    id:String!;
+    id_service:String!;
+    id_provider:String?;
+    description:String;
+    file_asset:[FILE];
+    status:boolean;
+}
+
+type ProviderRequest{
+    id:String;
+    id_service:String;
+    id_provider:String;
+    status:boolean;
+}
+
+type ServiceTransaction{
+    chat_room:[ChatRoom];
+    all_need:[need_request];
+    all_provider:[provider];
+    complete:boolean
+}
+
+type PayementTrans{
+    id:string;
+    type:payment_type;
+    id_need_request:string;
+    id_provider:string;
+    amought:float;
+    complete:Boolean;
+}
+
+enum PayementType{
+    MOMO,
+    OM,
+    PREPAID CARD,
+}
+
+type InprogressTrans{
+    id:String;
+    id_need_request:string;
+    id_provider:string;
+    id_chatroom:String;
+    payement_transaction:PayementTrans;
+    complete:boolean;
+    created_date:Date;
+    due_date:Date;
+}
+
+enum SMS_Sender{
+    USER,
+    PROVIDER
+}
+type Meassage{
+    id:String;
+    text:String;
+    role:SMS_Sender;
+    created_date:DATE;
+    status:boolean;
+}
+
+type ChatRoom{
+    id:string;
+    id_user:String;
+    id_provider:String;
+    all_message:Message[][];
+}
+
+
+
+
+
+
+
+
+
+
+
+
