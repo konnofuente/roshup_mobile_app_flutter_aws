@@ -1,5 +1,5 @@
-type User{
-    id:String;
+type USER   @model @auth(rules: [{allow: public}]) {
+    id:ID!;
     name:String;
     phone_number:String;
     email:String;
@@ -10,38 +10,50 @@ type User{
 
 }
 
-type PROVIDER{
-    id:string;
-    user_profile:User;
+
+type PROVIDER   @model @auth(rules: [{allow: public}]) {
+    id:ID!;
+    user_profile:USER @connection;
     services:[string]; #id of different services the user can provide
     rating:number;
     available:bool;
 }
 
-
-
-enum Role{
-    USER,
-    PROVIDER,
-    BOTH,
+type ADMIN @model @auth(rules: [{allow: private}]){
+    id: ID!;
+    user_profile:USER @connection;
 }
 
-type payment{
-    id:string;
+
+
+enum Role  {
+    USER,
+    PROVIDER,
+    ADMIN,
+}
+
+type payment  @model @auth(rules: [{allow: public}]) {
+    id:ID!;
     name:string;
     company:string;
     currency:string;
 }
 
-type Service{
-    id:String;
+enum PayementType {
+    MOMO,
+    OM,
+    PREPAID CARD,
+}
+
+type Service  @model @auth(rules: [{allow: public}]) {
+    id:ID!;
     name:String;
     amoungt:float;
     description:String; 
 }
 
-type NeedRequest{
-    id:String!;
+type NeedRequest  @model @auth(rules: [{allow: owner}]) {
+    id:ID!;
     id_service:String!;
     id_provider:String?;
     description:String;
@@ -49,60 +61,56 @@ type NeedRequest{
     status:boolean;
 }
 
-type ProviderRequest{
-    id:String;
+type ProviderRequest  @model @auth(rules: [{allow: owner}]) {
+    id:ID!;
     id_service:String;
     id_provider:String;
     status:boolean;
 }
 
-type ServiceTransaction{
-    chat_room:[ChatRoom];
-    all_need:[need_request];
-    all_provider:[provider];
+type ServiceTransaction  @model @auth(rules: [{allow: public}]) {
+    chat_room:[ChatRoom] @connection;
+    all_need:[need_request] @connection;
+    all_provider:[PROVIDER] @connection;
     complete:boolean
 }
 
-type PayementTrans{
-    id:string;
-    type:payment_type;
+type PayementTrans  @model @auth(rules: [{allow: public}]) {
+    id:ID!;
+    type:PaymentType;
     id_need_request:string;
     id_provider:string;
     amought:float;
     complete:Boolean;
 }
 
-enum PayementType{
-    MOMO,
-    OM,
-    PREPAID CARD,
-}
 
-type InprogressTrans{
-    id:String;
+
+type InprogressTrans  @model @auth(rules: [{allow: public}]) {
+    id:ID!;
     id_need_request:string;
     id_provider:string;
     id_chatroom:String;
-    payement_transaction:PayementTrans;
+    payement_transaction:PayementTrans @connection;
     complete:boolean;
     created_date:Date;
     due_date:Date;
 }
 
-enum SMS_Sender{
+enum SMS_Sender {
     USER,
     PROVIDER
 }
-type Meassage{
-    id:String;
+type Meassage  @model @auth(rules: [{allow: public}]) {
+    id:ID!;
     text:String;
-    role:SMS_Sender;
+    role:SMS_Sender @connection;
     created_date:DATE;
     status:boolean;
 }
 
-type ChatRoom{
-    id:string;
+type ChatRoom  @model @auth(rules: [{allow: public}]) {
+    id:ID!;
     id_user:String;
     id_provider:String;
     all_message:Message[][];
