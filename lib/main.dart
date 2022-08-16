@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/amplifyconfiguration.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc_export.dart';
+import 'package:roshup_mobile_app_flutter_aws/screen_ui/design_course/models/main_ui.dart';
 import 'models/ModelProvider.dart';
 import 'screens/Home/HomePage.dart';
 import 'screens/Login/SignIn.dart';
 import 'services/provider.dart';
+
+
 
 void main() {
   BlocOverrides.runZoned(
@@ -109,8 +112,22 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         theme: ThemeData(),
         title: 'Flutter AWS Amplify',
-        home: loginState ? HomePage() : SignIn(),
+        // home: loginState ? HomePage() : SignIn(),
+        home:main_ui(),
       ),
     );
+  }
+}
+
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
   }
 }

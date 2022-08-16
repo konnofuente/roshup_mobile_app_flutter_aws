@@ -22,7 +22,6 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
-
 /** This is an auto generated class representing the SERVICE type in your schema. */
 @immutable
 class SERVICE extends Model {
@@ -30,160 +29,279 @@ class SERVICE extends Model {
   final String id;
   final String? _name;
   final int? _amoungt;
+  final String? _imagePath;
+  final double? _rating;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
-  
+
   @override
   String getId() {
     return id;
   }
-  
+
   String get name {
     try {
       return _name!;
-    } catch(e) {
+    } catch (e) {
       throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
+          AmplifyExceptionMessages
+              .codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion: AmplifyExceptionMessages
+              .codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString());
     }
   }
-  
+
   int get amoungt {
     try {
       return _amoungt!;
-    } catch(e) {
+    } catch (e) {
       throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
+          AmplifyExceptionMessages
+              .codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion: AmplifyExceptionMessages
+              .codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString());
     }
   }
-  
+
+  String? get imagePath {
+    return _imagePath;
+  }
+
+  double? get rating {
+    return _rating;
+  }
+
   TemporalDateTime? get createdAt {
     return _createdAt;
   }
-  
+
   TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
-  
-  const SERVICE._internal({required this.id, required name, required amoungt, createdAt, updatedAt}): _name = name, _amoungt = amoungt, _createdAt = createdAt, _updatedAt = updatedAt;
-  
-  factory SERVICE({String? id, required String name, required int amoungt}) {
+
+  const SERVICE._internal(
+      {required this.id,
+      required name,
+      required amoungt,
+      imagePath,
+      rating,
+      createdAt,
+      updatedAt})
+      : _name = name,
+        _amoungt = amoungt,
+        _imagePath = imagePath,
+        _rating = rating,
+        _createdAt = createdAt,
+        _updatedAt = updatedAt;
+
+  factory SERVICE(
+      {String? id,
+      required String name,
+      required int amoungt,
+      String? imagePath,
+      double? rating}) {
     return SERVICE._internal(
-      id: id == null ? UUID.getUUID() : id,
-      name: name,
-      amoungt: amoungt);
+        id: id == null ? UUID.getUUID() : id,
+        name: name,
+        amoungt: amoungt,
+        imagePath: imagePath,
+        rating: rating);
   }
-  
+
   bool equals(Object other) {
     return this == other;
   }
-  
+
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is SERVICE &&
-      id == other.id &&
-      _name == other._name &&
-      _amoungt == other._amoungt;
+        id == other.id &&
+        _name == other._name &&
+        _amoungt == other._amoungt &&
+        _imagePath == other._imagePath &&
+        _rating == other._rating;
   }
-  
+
   @override
   int get hashCode => toString().hashCode;
-  
+
   @override
   String toString() {
     var buffer = new StringBuffer();
-    
+
     buffer.write("SERVICE {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("name=" + "$_name" + ", ");
-    buffer.write("amoungt=" + (_amoungt != null ? _amoungt!.toString() : "null") + ", ");
-    buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
-    buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
+    buffer.write(
+        "amoungt=" + (_amoungt != null ? _amoungt!.toString() : "null") + ", ");
+    buffer.write("imagePath=" + "$_imagePath" + ", ");
+    buffer.write(
+        "rating=" + (_rating != null ? _rating!.toString() : "null") + ", ");
+    buffer.write("createdAt=" +
+        (_createdAt != null ? _createdAt!.format() : "null") +
+        ", ");
+    buffer.write(
+        "updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
-    
+
     return buffer.toString();
   }
-  
-  SERVICE copyWith({String? id, String? name, int? amoungt}) {
+
+  SERVICE copyWith(
+      {String? id,
+      String? name,
+      int? amoungt,
+      String? imagePath,
+      double? rating}) {
     return SERVICE._internal(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      amoungt: amoungt ?? this.amoungt);
+        id: id ?? this.id,
+        name: name ?? this.name,
+        amoungt: amoungt ?? this.amoungt,
+        imagePath: imagePath ?? this.imagePath,
+        rating: rating ?? this.rating);
   }
-  
-  SERVICE.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
-      _amoungt = (json['amoungt'] as num?)?.toInt(),
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
-  
+
+  SERVICE.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        _name = json['name'],
+        _amoungt = (json['amoungt'] as num?)?.toInt(),
+        _imagePath = json['imagePath'],
+        _rating = (json['rating'] as num?)?.toDouble(),
+        _createdAt = json['createdAt'] != null
+            ? TemporalDateTime.fromString(json['createdAt'])
+            : null,
+        _updatedAt = json['updatedAt'] != null
+            ? TemporalDateTime.fromString(json['updatedAt'])
+            : null;
+
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'amoungt': _amoungt, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
-  };
+        'id': id,
+        'name': _name,
+        'amoungt': _amoungt,
+        'imagePath': _imagePath,
+        'rating': _rating,
+        'createdAt': _createdAt?.format(),
+        'updatedAt': _updatedAt?.format()
+      };
 
   static final QueryField ID = QueryField(fieldName: "sERVICE.id");
   static final QueryField NAME = QueryField(fieldName: "name");
   static final QueryField AMOUNGT = QueryField(fieldName: "amoungt");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final QueryField IMAGEPATH = QueryField(fieldName: "imagePath");
+  static final QueryField RATING = QueryField(fieldName: "rating");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "SERVICE";
     modelSchemaDefinition.pluralName = "SERVICES";
-    
+
     modelSchemaDefinition.authRules = [
-      AuthRule(
-        authStrategy: AuthStrategy.PUBLIC,
-        operations: [
-          ModelOperation.CREATE,
-          ModelOperation.UPDATE,
-          ModelOperation.DELETE,
-          ModelOperation.READ
-        ])
+      AuthRule(authStrategy: AuthStrategy.PUBLIC, operations: [
+        ModelOperation.CREATE,
+        ModelOperation.UPDATE,
+        ModelOperation.DELETE,
+        ModelOperation.READ
+      ])
     ];
-    
+
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-    
+
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: SERVICE.NAME,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
+        key: SERVICE.NAME,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: SERVICE.AMOUNGT,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.int)
-    ));
-    
+        key: SERVICE.AMOUNGT,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.int)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SERVICE.IMAGEPATH,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SERVICE.RATING,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.double)));
+
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
-      fieldName: 'createdAt',
-      isRequired: false,
-      isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
-    ));
-    
+        fieldName: 'createdAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
-      fieldName: 'updatedAt',
-      isRequired: false,
-      isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
-    ));
+        fieldName: 'updatedAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
+
+  static List<SERVICE> ServiceList = <SERVICE>[
+    SERVICE(
+        name: 'Wordpress',
+        amoungt: 30000,
+        imagePath: 'assets/design_course/interFace1.png',
+        rating: 4.5),
+
+    SERVICE(
+        name: 'Microsoft',
+        amoungt: 32000,
+        imagePath: 'assets/design_course/interFace1.png',
+        rating: 4.5),
+
+    SERVICE(
+        name: 'Power point',
+        amoungt: 30000,
+        imagePath: 'assets/design_course/interFace1.png',
+        rating: 4.5),
+
+    SERVICE(
+        name: 'Wordpress',
+        amoungt: 30000,
+        imagePath: 'assets/design_course/interFace2.png',
+        rating: 4.5),
+  ];
+
+
+  
+  static List<SERVICE> popularServiceList = <SERVICE>[
+    SERVICE(
+        name: 'Wordpress',
+        amoungt: 30000,
+        imagePath: 'assets/design_course/interFace1.png',
+        rating: 4.5),
+
+    SERVICE(
+        name: 'Microsoft',
+        amoungt: 32000,
+        imagePath: 'assets/design_course/interFace1.png',
+        rating: 4.5),
+
+    SERVICE(
+        name: 'Power point',
+        amoungt: 30000,
+        imagePath: 'assets/design_course/interFace1.png',
+        rating: 4.5),
+
+    SERVICE(
+        name: 'Wordpress',
+        amoungt: 30000,
+        imagePath: 'assets/design_course/interFace2.png',
+        rating: 4.5),
+  ];
 }
 
 class _SERVICEModelType extends ModelType<SERVICE> {
   const _SERVICEModelType();
-  
+
   @override
   SERVICE fromJson(Map<String, dynamic> jsonData) {
     return SERVICE.fromJson(jsonData);
