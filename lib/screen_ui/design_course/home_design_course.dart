@@ -36,7 +36,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                   child: Column(
                     children: <Widget>[
                       // getSearchBarUI(), this is the part for the search bar
-                      getCategoryUI(),
+                      // getCategoryUI(),
                       Flexible(
                         child: getPopularCourseUI(),
                       ),
@@ -107,7 +107,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text(
-            'Popular Service',
+            'All Service',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,

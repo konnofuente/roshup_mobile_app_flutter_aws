@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/amplifyconfiguration.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc_export.dart';
-import 'package:roshup_mobile_app_flutter_aws/screen_ui/design_course/models/main_ui.dart';
+import 'package:roshup_mobile_app_flutter_aws/main_ui.dart';
 import 'models/ModelProvider.dart';
 import 'screens/Home/HomePage.dart';
 import 'screens/Login/SignIn.dart';

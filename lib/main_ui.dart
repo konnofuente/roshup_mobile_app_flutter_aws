@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../home/app_theme.dart';
-import '../../home/navigation_home_screen.dart';
+import 'screen_ui/home/app_theme.dart';
+import 'screen_ui/home/navigation_home_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 // void main_ui() async {
