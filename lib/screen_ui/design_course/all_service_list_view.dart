@@ -3,19 +3,18 @@ import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../../models/ModelProvider.dart';
 import '../../models/SERVICE.dart';
-import '../../models/SERVICE.dart';
 import 'course_info_screen.dart';
 import 'design_course_app_theme.dart';
 
-class popularServiceListView extends StatefulWidget {
-  const popularServiceListView({Key? key, this.callBack}) : super(key: key);
+class AllServiceListView extends StatefulWidget {
+  const AllServiceListView({Key? key, this.callBack}) : super(key: key);
 
   final Function()? callBack;
   @override
-  _popularServiceListViewState createState() => _popularServiceListViewState();
+  _AllServiceListViewState createState() => _AllServiceListViewState();
 }
 
-class _popularServiceListViewState extends State<popularServiceListView>
+class _AllServiceListViewState extends State<AllServiceListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -51,9 +50,9 @@ class _popularServiceListViewState extends State<popularServiceListView>
                 childAspectRatio: 0.8,
               ),
               children: List<Widget>.generate(
-                SERVICE.popularServiceList.length,
+                SERVICE.AllServiceList.length,
                 (int index) {
-                  final int count = SERVICE.popularServiceList.length;
+                  final int count = SERVICE.AllServiceList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -65,7 +64,7 @@ class _popularServiceListViewState extends State<popularServiceListView>
                   animationController?.forward();
                   return SERVICEView(
                     callback: widget.callBack,
-                    service: SERVICE.popularServiceList[index],
+                    service: SERVICE.AllServiceList[index],
                     animation: animation,
                     animationController: animationController,
                   );

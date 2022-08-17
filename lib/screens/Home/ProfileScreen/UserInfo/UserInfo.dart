@@ -9,12 +9,12 @@ import 'EditScreens/edit_name.dart';
 import 'EditScreens/edit_phone.dart';
 
 // This class handles the Page to dispaly the user's info on the "Edit Profile" Screen
-class ProfilePage extends StatefulWidget {
+class UserInfo extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _UserInfoState createState() => _UserInfoState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _UserInfoState extends State<UserInfo> {
   @override
   Widget build(BuildContext context) {
     String? name = 'testname',

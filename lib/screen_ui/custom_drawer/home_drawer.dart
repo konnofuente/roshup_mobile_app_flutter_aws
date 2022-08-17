@@ -32,33 +32,28 @@ class _HomeDrawerState extends State<HomeDrawer> {
       DrawerList(
         index: DrawerIndex.HOME,
         labelName: 'Home',
-        icon: Icon(Icons.home),
+        icon: const Icon(Icons.home),
       ),
       DrawerList(
         index: DrawerIndex.Help,
-        labelName: 'Help',
+        labelName: 'Activity',
         isAssetsImage: true,
         imageName: 'assets/images/supportIcon.png',
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
-        labelName: 'FeedBack',
-        icon: Icon(Icons.help),
+        labelName: 'Chat',
+        icon: const Icon(Icons.help),
       ),
       DrawerList(
         index: DrawerIndex.Invite,
-        labelName: 'Invite Friend',
-        icon: Icon(Icons.group),
-      ),
-      DrawerList(
-        index: DrawerIndex.Share,
-        labelName: 'Rate the app',
-        icon: Icon(Icons.share),
+        labelName: 'Profile',
+        icon: const Icon(Icons.group),
       ),
       DrawerList(
         index: DrawerIndex.About,
-        labelName: 'About Us',
-        icon: Icon(Icons.info),
+        labelName: 'Feed Back',
+        icon: const Icon(Icons.info),
       ),
     ];
   }
@@ -157,9 +152,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
           Column(
             children: <Widget>[
               ListTile(
-                title: Text(
+                title: const Text(
                   'Sign Out',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -167,7 +162,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   ),
                   textAlign: TextAlign.left,
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.power_settings_new,
                   color: Colors.red,
                 ),
@@ -265,7 +260,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             0.0,
                             0.0),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 8, bottom: 8),
+                          padding: const EdgeInsets.only(top: 8, bottom: 8),
                           child: Container(
                             width:
                                 MediaQuery.of(context).size.width * 0.75 - 64,
@@ -273,10 +268,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             decoration: BoxDecoration(
                               color: Colors.blue.withOpacity(0.2),
                               borderRadius: new BorderRadius.only(
-                                topLeft: Radius.circular(0),
-                                topRight: Radius.circular(28),
-                                bottomLeft: Radius.circular(0),
-                                bottomRight: Radius.circular(28),
+                                topLeft: const Radius.circular(0),
+                                topRight: const Radius.circular(28),
+                                bottomLeft: const Radius.circular(0),
+                                bottomRight: const Radius.circular(28),
                               ),
                             ),
                           ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/Home/ActivityScreen.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/Home/ProfileScreen/ProfileScreen.dart';
 
+import '../../screens/Home/ChatScreen.dart';
 import '../custom_drawer/drawer_user_controller.dart';
 import '../custom_drawer/home_drawer.dart';
 import '../design_course/home_design_course.dart';
 import 'app_theme.dart';
 import 'feedback_screen.dart';
-import 'help_screen.dart';
-import 'home_screen.dart';
-import 'invite_friend_screen.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
   @override
@@ -27,14 +27,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //     home: Scaffold(
-    //   appBar: AppBar(
-    //     title: const Text('GeeksforGeeks'),
-        
-    //   )
-    //   ),
-    // );
     return Container(
       color: AppTheme.white,
       child: SafeArea(
@@ -68,17 +60,17 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
           break;
         case DrawerIndex.Help:
           setState(() {
-            screenView = HelpScreen();
+            screenView = ActivityScreen();
           });
           break;
         case DrawerIndex.FeedBack:
           setState(() {
-            screenView = FeedbackScreen();
+            screenView = ChatScreen();
           });
           break;
         case DrawerIndex.Invite:
           setState(() {
-            screenView = InviteFriend();
+            screenView = ProfileScreen();
           });
           break;
         default:

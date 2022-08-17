@@ -272,7 +272,7 @@ class SERVICE extends Model {
 
 
   
-  static List<SERVICE> popularServiceList = <SERVICE>[
+  static List<SERVICE> AllServiceList = <SERVICE>[
     SERVICE(
         name: 'Wordpress',
         amoungt: 30000,

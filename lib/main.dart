@@ -21,7 +21,7 @@ void main() {
           create: (_) =>
               UserLoginStatus(userLoggedIn: false, isActExist: false)),
     ], child: MyApp())),
-  );
+  ); 
 }
 
 class MyApp extends StatefulWidget {
@@ -48,14 +48,10 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> loadAppConfig() async {
     await _configureAmplify();
-    // await UserInfor();
   }
 
 
   Future<void> _configureAmplify() async {
-
-
-
     final datastorePlugin =
         AmplifyDataStore(modelProvider: ModelProvider.instance);
     final api = AmplifyAPI();
@@ -96,6 +92,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     var loginState = Provider.of<UserLoginStatus>(context).userLoggedIn;
@@ -112,8 +110,8 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         theme: ThemeData(),
         title: 'Flutter AWS Amplify',
-        // home: loginState ? HomePage() : SignIn(),
-        home:main_ui(),
+        home: loginState ? main_ui() : SignIn(),
+        // home:main_ui(),
       ),
     );
   }
@@ -122,7 +120,6 @@ class _MyAppState extends State<MyApp> {
 
 class HexColor extends Color {
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
-
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll('#', '');
     if (hexColor.length == 6) {

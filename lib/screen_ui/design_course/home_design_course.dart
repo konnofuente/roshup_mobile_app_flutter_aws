@@ -4,7 +4,7 @@ import '../home/app_theme.dart';
 import 'service_list_view.dart';
 import 'course_info_screen.dart';
 import 'design_course_app_theme.dart';
-import 'popular_service_list_view.dart';
+import 'all_service_list_view.dart';
 
 class DesignCourseHomeScreen extends StatefulWidget {
   @override
@@ -117,7 +117,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             ),
           ),
           Flexible(
-            child: popularServiceListView(
+            child: AllServiceListView(
               callBack: () {
                 // moveTo();
               },
