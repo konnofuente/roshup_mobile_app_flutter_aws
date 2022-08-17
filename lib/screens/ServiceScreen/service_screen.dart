@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roshup_mobile_app_flutter_aws/widgets/add_service.dart';
 import '../../main.dart';
 import '../home/app_theme.dart';
 import 'service_list_view.dart';
@@ -12,9 +13,8 @@ class ServiceScreen extends StatefulWidget {
 }
 
 class _ServiceScreenState extends State<ServiceScreen> {
-
   CategoryType categoryType = CategoryType.ui;
-    bool multiple = true;
+  bool multiple = true;
 
   @override
   Widget build(BuildContext context) {
@@ -72,20 +72,20 @@ class _ServiceScreenState extends State<ServiceScreen> {
         Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Row(
-            // children: <Widget>[
-            //   getButtonUI(CategoryType.ui, categoryType == CategoryType.ui),
-            //   const SizedBox(
-            //     width: 16,
-            //   ),
-            //   getButtonUI(
-            //       CategoryType.coding, categoryType == CategoryType.coding),
-            //   const SizedBox(
-            //     width: 16,
-            //   ),
-            //   getButtonUI(
-            //       CategoryType.basic, categoryType == CategoryType.basic),
-            // ],
-          ),
+              // children: <Widget>[
+              //   getButtonUI(CategoryType.ui, categoryType == CategoryType.ui),
+              //   const SizedBox(
+              //     width: 16,
+              //   ),
+              //   getButtonUI(
+              //       CategoryType.coding, categoryType == CategoryType.coding),
+              //   const SizedBox(
+              //     width: 16,
+              //   ),
+              //   getButtonUI(
+              //       CategoryType.basic, categoryType == CategoryType.basic),
+              // ],
+              ),
         ),
         const SizedBox(
           height: 16,
@@ -303,13 +303,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
     );
   }
 
-
-
-  
   Widget appBar() {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    
+
     return SizedBox(
       height: AppBar().preferredSize.height,
       child: Row(
@@ -323,7 +320,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
             ),
           ),
           Expanded(
-            child:  Center(
+            child: Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 4),
                 child: Text(
@@ -344,20 +341,24 @@ class _ServiceScreenState extends State<ServiceScreen> {
               width: AppBar().preferredSize.height - 8,
               height: AppBar().preferredSize.height - 8,
               color: isLightMode ? Colors.white : AppTheme.nearlyBlack,
-                // color:  AppTheme.nearlyBlack,
+              // color:  AppTheme.nearlyBlack,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius:
                       BorderRadius.circular(AppBar().preferredSize.height),
                   child: Icon(
-                    multiple ? Icons.dashboard : Icons.view_agenda,
+                    multiple ? Icons.add : Icons.view_agenda,
                     color: isLightMode ? AppTheme.dark_grey : AppTheme.white,
                   ),
                   onTap: () {
-                    setState(() {
-                      multiple = !multiple;
-                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  AddServiceScreen() ),
+                    );
+                    // setState(() {
+                    //   multiple = !multiple;
+                    // });
                   },
                 ),
               ),
@@ -368,10 +369,6 @@ class _ServiceScreenState extends State<ServiceScreen> {
     );
   }
 }
-
-
-
-
 
 enum CategoryType {
   ui,
