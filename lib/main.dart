@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/amplifyconfiguration.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc_export.dart';
-import 'package:roshup_mobile_app_flutter_aws/main_ui.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/app_platform.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/home/home_screen.dart';
 import 'models/ModelProvider.dart';
-import 'screens/Home/HomePage.dart';
 import 'screens/Login/SignIn.dart';
 import 'services/provider.dart';
 
@@ -110,8 +110,8 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         theme: ThemeData(),
         title: 'Flutter AWS Amplify',
-        home: loginState ? main_ui() : SignIn(),
-        // home:main_ui(),
+        home: loginState ? AppPlatform() : SignIn(),
+        // home: AppPlatform(),
       ),
     );
   }

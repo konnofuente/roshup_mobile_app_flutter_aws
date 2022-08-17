@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:roshup_mobile_app_flutter_aws/screens/Home/ActivityScreen.dart';
-import 'package:roshup_mobile_app_flutter_aws/screens/Home/ProfileScreen/ProfileScreen.dart';
+import '../../screens/ActivityScreen/activity_screen.dart';
+import '../../screens/ChatScreen/chat_screen.dart';
+import '../../screens/ProfileScreen/profile_screen.dart';
+import '../../screens/ServiceScreen/service_screen.dart';
 
-import '../../screens/Home/ChatScreen.dart';
-import '../custom_drawer/drawer_user_controller.dart';
-import '../custom_drawer/home_drawer.dart';
-import '../design_course/home_design_course.dart';
+import '../../widgets/custom_drawer/drawer_user_controller.dart';
+import '../../widgets/custom_drawer/home_drawer.dart';
 import 'app_theme.dart';
-import 'feedback_screen.dart';
 
-class NavigationHomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   Widget? screenView;
   DrawerIndex? drawerIndex;
 
   @override
   void initState() {
     drawerIndex = DrawerIndex.HOME;
-    screenView =  DesignCourseHomeScreen();
+    screenView =  ServiceScreen();
     super.initState();
   }
 
@@ -42,7 +41,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
               //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
             },
             screenView: screenView,
-            //we replace screen view as we need on navigate starting screens like MyHomePage, HelpScreen, FeedbackScreen, etc...
+            //we replace screen view as we need on navigate starting screens like MyHomeScreen, HelpScreen, FeedbackScreen, etc...
           ),
         ),
       ),
@@ -55,7 +54,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       switch (drawerIndex) {
         case DrawerIndex.HOME:
           setState(() {
-            screenView = DesignCourseHomeScreen();
+            screenView = ServiceScreen();
           });
           break;
         case DrawerIndex.Help:

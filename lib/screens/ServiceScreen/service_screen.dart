@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../home/app_theme.dart';
 import 'service_list_view.dart';
-import 'course_info_screen.dart';
+import 'service_info_screen.dart';
 import 'design_course_app_theme.dart';
 import 'all_service_list_view.dart';
 
-class DesignCourseHomeScreen extends StatefulWidget {
+class ServiceScreen extends StatefulWidget {
   @override
-  _DesignCourseHomeScreenState createState() => _DesignCourseHomeScreenState();
+  _ServiceScreenState createState() => _ServiceScreenState();
 }
 
-class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
+class _ServiceScreenState extends State<ServiceScreen> {
 
   CategoryType categoryType = CategoryType.ui;
     bool multiple = true;
@@ -132,7 +132,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     Navigator.push<dynamic>(
       context,
       MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => CourseInfoScreen(),
+        builder: (BuildContext context) => ServiceInfoScreen(),
       ),
     );
   }

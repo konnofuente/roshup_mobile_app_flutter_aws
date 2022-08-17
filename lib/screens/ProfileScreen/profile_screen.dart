@@ -6,7 +6,6 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:roshup_mobile_app_flutter_aws/screens/Home/ProfileScreen/UserInfo/UserInfo.dart';
 import 'package:roshup_mobile_app_flutter_aws/services/auth.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -14,6 +13,7 @@ import '../../../blocs/bloc/user_state.dart';
 import '../../../blocs/bloc_export.dart';
 import '../../../models/User.dart';
 import '../../../services/provider.dart';
+import 'UserInfo/UserInfo.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

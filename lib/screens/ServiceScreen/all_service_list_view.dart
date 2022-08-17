@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../../models/ModelProvider.dart';
 import '../../models/SERVICE.dart';
-import 'course_info_screen.dart';
+import 'service_info_screen.dart';
 import 'design_course_app_theme.dart';
 
 class AllServiceListView extends StatefulWidget {
@@ -82,7 +82,7 @@ void moveTo(BuildContext context) {
   Navigator.push<dynamic>(
     context,
     MaterialPageRoute<dynamic>(
-      builder: (BuildContext context) => CourseInfoScreen(),
+      builder: (BuildContext context) => ServiceInfoScreen(),
     ),
   );
 }

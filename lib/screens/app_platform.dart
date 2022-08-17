@@ -4,20 +4,21 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'blocs/bloc/user_bloc.dart';
-import 'models/User.dart';
-import 'screen_ui/home/app_theme.dart';
-import 'screen_ui/home/navigation_home_screen.dart';
+import '../blocs/bloc/user_bloc.dart';
+import '../models/User.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import 'home/app_theme.dart';
+import 'home/home_screen.dart';
 
 
-class main_ui extends StatefulWidget {
+
+class AppPlatform extends StatefulWidget {
   @override
-  State<main_ui> createState() => _main_uiState();
+  State<AppPlatform> createState() => _AppPlatformState();
 }
 
-class _main_uiState extends State<main_ui> {
+class _AppPlatformState extends State<AppPlatform> {
   late List<String> value = [];
   late User user;
   @override
@@ -78,7 +79,7 @@ class _main_uiState extends State<main_ui> {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: NavigationHomeScreen(),
+      home: HomeScreen(),
     );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 
-class CourseInfoScreen extends StatefulWidget {
+class ServiceInfoScreen extends StatefulWidget {
   @override
-  _CourseInfoScreenState createState() => _CourseInfoScreenState();
+  _ServiceInfoScreenState createState() => _ServiceInfoScreenState();
 }
 
-class _CourseInfoScreenState extends State<CourseInfoScreen>
+class _ServiceInfoScreenState extends State<ServiceInfoScreen>
     with TickerProviderStateMixin {
   final double infoHeight = 364.0;
   AnimationController? animationController;
