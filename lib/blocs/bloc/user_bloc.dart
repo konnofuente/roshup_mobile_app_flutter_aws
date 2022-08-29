@@ -1,20 +1,18 @@
 import 'dart:async';
-
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/User.dart';
 import '../../screens/Login/UserVerification.dart';
 import 'user_state.dart';
-
 part 'user_event.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(const UserState()) {
     on<AddUsers>(_onAddUser);
-    on<UpdateUsersName>(_onUpdateUserName);
+    on<ClearLocalInfo>(_onClearLocalInfo);
+    on<UpdateUsersName>(_onUpdateUserfirstName);
     on<UpdatePhoneNumber>(_onUpdatePhoneNumber);
     on<UpdateUserEmail>(_onUpdateUserEmail);
   }
@@ -26,10 +24,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     final item = User(
         id: event.users.id,
-        name: event.users.name,
-        phone_number: event.users.phone_number,
-        email: event.users.email,
-        image: event.users.image);
+        firstName: event.users.firstName,
+        phoneNumber: event.users.phoneNumber,
+        email: event.users.email);
 
     try {
       await Amplify.DataStore.save(item);
@@ -39,45 +36,31 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  // Future<FutureOr<void>> _onUpdateUserName(UpdateUsersName event, Emitter<UserState> emit) async {
-  //    final state = this.state;
-  //   final user = event.users;
-  //   final index = state.allUsers.indexOf(user);
-  //   List<User> alluser = List.from(state.allUsers)..remove(user);
-  //   alluser.insert(
-  //       index,
-  //       user.copyWith(name: event.users.name));
+  FutureOr<void> _onClearLocalInfo(
+      ClearLocalInfo event, Emitter<UserState> emit) {
+    final state = this.state;
+    List<User> alluser = List.from(state.allUsers);
+    alluser.clear();
+    print("table user succefully cleared !!!!!!!!!!!!!");
+  }
 
-  //   try {
-  //   final result = await Amplify.Auth.updateUserAttribute(
-  //     userAttributeKey: CognitoUserAttributeKey.name,
-  //     value: event.users.name!,
-  //   );
-  //   if (result.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
-  //     var destination = result.nextStep.codeDeliveryDetails?.destination;
-  //     print('Confirmation code sent to $destination');
-  //   } else {
-  //     print('Update completed');
-  //   }
-  // } on AmplifyException catch (e) {
-  //   print(e.message);
-  // }
-
-  // }
-
-  Future<void> _onUpdateUserName(
+  Future<void> _onUpdateUserfirstName(
       UpdateUsersName event, Emitter<UserState> emit) async {
     final state = this.state;
-    final name = event.name;
+    final firstName = event.firstName;
+    final lastName = event.lastName;
     final user = event.users;
     final index = state.allUsers.indexOf(user);
+    //update Locale storage
     List<User> alluser = List.from(state.allUsers)..remove(user);
-    alluser.insert(index, user.copyWith(name: name));
+    alluser.insert(
+        index, user.copyWith(firstName: firstName, lastName: lastName));
 
+    //update Cognito user information
     try {
       final result = await Amplify.Auth.updateUserAttribute(
         userAttributeKey: CognitoUserAttributeKey.name,
-        value: name,
+        value: '$firstName $lastName',
       );
       if (result.nextStep.updateAttributeStep ==
           'CONFIRM_ATTRIBUTE_WITH_CODE') {
@@ -90,22 +73,36 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       print(e.message);
     }
 
+    //update User information in AWS User datastore Table
+    try {
+      final UserWithId = await Amplify.DataStore.query(
+        User.classType,
+        where: User.ID.eq(user.id),
+      );
+      final oldUser = UserWithId.first;
+      final newUser = oldUser.copyWith(
+          id: oldUser.id, firstName: firstName, lastName: lastName);
+      await Amplify.DataStore.save(newUser);
+    } catch (e) {
+      print('Could not Save data in User Table $e ');
+    }
+
     emit(UserState(allUsers: alluser));
   }
 
   Future<FutureOr<void>> _onUpdatePhoneNumber(
       UpdatePhoneNumber event, Emitter<UserState> emit) async {
     final state = this.state;
-    final phone_number = event.phone_number;
+    final phoneNumber = event.phoneNumber;
     final user = event.users;
     final index = state.allUsers.indexOf(user);
     List<User> alluser = List.from(state.allUsers)..remove(user);
-    alluser.insert(index, user.copyWith(phone_number: phone_number));
+    alluser.insert(index, user.copyWith(phoneNumber: phoneNumber));
 
     try {
       final result = await Amplify.Auth.updateUserAttribute(
         userAttributeKey: CognitoUserAttributeKey.phoneNumber,
-        value: phone_number,
+        value: phoneNumber,
       );
       if (result.nextStep.updateAttributeStep ==
           'CONFIRM_ATTRIBUTE_WITH_CODE') {
@@ -143,7 +140,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => UserVerification(phno: event.users.phone_number)));
+                builder: (context) =>
+                    UserVerification(phno: event.users.phoneNumber)));
       } else {
         print('Update completed');
       }

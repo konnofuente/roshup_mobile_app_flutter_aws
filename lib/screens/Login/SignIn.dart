@@ -21,9 +21,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Login'),
-      // ),
+
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 40.0),
@@ -101,7 +99,7 @@ class _SignInState extends State<SignIn> {
                         print('let try');
                         AuthServices().userSignIn(phone_num, pwd, context);
                         var alertDia =
-                            Provider.of<UserLoginStatus>(context, listen: false)
+                            Provider.of<AppStatus>(context, listen: false)
                                 .isActExist;
                         // alertDia ? '' : showalertDialogue();
                         print(

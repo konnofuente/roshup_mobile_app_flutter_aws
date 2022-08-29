@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:roshup_mobile_app_flutter_aws/services/auth.dart';
 import 'SignIn.dart';
 
@@ -32,7 +33,7 @@ class _SignUpState extends State<SignUp> {
             children: [
               Row(
                 children: [
-                  Text(
+                   Text(
                     'Sign Up',
                     style: TextStyle(fontSize: 22.0),
                   ),
@@ -126,26 +127,18 @@ class _SignUpState extends State<SignUp> {
                           setState(() => pwd = val);
                         }),
                     SizedBox(height: 20),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.phone, color: Colors.blue),
-                          labelText: 'phone number',
-                          hintText: "",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              borderSide: BorderSide(color: Colors.grey)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              borderSide: BorderSide(color: Colors.blue)),
+                    IntlPhoneField(
+                      decoration: const InputDecoration(
+                        labelText: 'Phone Number',
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(),
                         ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (val) {
-                          setState(() => phno = val);
-                        }),
+                      ),
+                      initialCountryCode: 'CM',
+                      onChanged: (phone) {
+                        setState(() => phno = phone.completeNumber);
+                      },
+                    ),
                     SizedBox(height: 40),
                     ElevatedButton(
                       child: Text('REGISTER'),

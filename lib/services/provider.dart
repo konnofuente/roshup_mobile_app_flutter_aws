@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 
-class UserLoginStatus with ChangeNotifier {
-  UserLoginStatus({
+class AppStatus with ChangeNotifier {
+  AppStatus({
     required this.userLoggedIn,
     required this.isActExist,
+    required this.isLoading,
   });
 
   bool userLoggedIn;
   bool isActExist;
+  bool isLoading;
 
   changeUserStatus(bool changeState) {
     userLoggedIn = changeState;
     notifyListeners();
-    // printNewSelection();
   }
 
   changeActExist(bool changeState) {
     isActExist = changeState;
     notifyListeners();
-    // printNewSelection();
+  }
+  changeLoading(bool changeState) {
+    isLoading= changeState;
+    notifyListeners();
   }
 }

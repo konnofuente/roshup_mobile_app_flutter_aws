@@ -102,20 +102,20 @@ class EditNameFormPageState extends State<EditNameFormPage> {
                             child: TextButton(
                               onPressed: () {
                                 // Validate returns true if the form is valid, or false otherwise.
-                                // if (isAlpha(firstNameController.text +
-                                //         secondNameController.text)) {
-                                  Username = '${firstNameController.text} ${secondNameController.text}';
-                                  // updateUserValue(firstNameController.text +
-                                  //     " " +
-                                  //     secondNameController.text);
+                                if (isAlpha(firstNameController.text) ||
+                                    isAlpha(secondNameController.text)) {
+                                  // Username =
+                                  //     '${firstNameController.text} ${secondNameController.text}';
 
-                                  Provider.of<UserBloc>(context,listen: false)
-                                    .add(UpdateUsersName(
-                                       name: Username,
-                                        users: state.allUsers[0],
-                                       ));
-                                  // Navigator.pop(context);
-                              // }
+                                  Provider.of<UserBloc>(context, listen: false)
+                                      .add(UpdateUsersName(
+                                    firstName: firstNameController.text,
+                                    lastName: secondNameController.text,
+                                    users: state.allUsers[0],
+                                  ));
+                                } else {
+                                  AlertBox(context, "Edit Alert", "Please Enter atleast to update");
+                                }
                               },
                               child: const Text(
                                 'Update',
@@ -129,4 +129,24 @@ class EditNameFormPageState extends State<EditNameFormPage> {
       },
     );
   }
+}
+
+void AlertBox(BuildContext context, String title, String message) {
+  showDialog<String>(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: Text(title),
+      content: Text(message),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
 }

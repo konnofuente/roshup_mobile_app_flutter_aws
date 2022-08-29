@@ -1,16 +1,180 @@
-type User @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  name: String
-  phone_number: String!
-  email: String!
-  image: String
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type User @model @auth(rules: [{allow: owner}]) {
+  id: ID! @primaryKey
+  firstName: String
+  lastName: String
+  email: AWSEmail!
+  phoneNumber: AWSPhone!
+  birthdate: AWSDateTime
+  picture: Image
+  role: [Role]
+  paymentType: [PaymentType]
+  rosProvider: RosProvider
+  rating: Float
+  suggestions: [Suggestion]
+  roshubPoints: [RoshubPoint] @hasMany(indexName: "byUserRoshubPoint")
+  messages: [Message]
+  # requestResolvings: [Request] @hasMany
+  # requestSubmiteds: [Request] @hasMany
+  # requestResolvings: [Request] @hasMany(indexName: "byRosProvider")
+  requestSubmiteds: [Request] @hasMany(indexName: "byUser")
 }
 
-type SERVICE @model @auth(rules: [{allow: public}]) {
+type Request @model @auth(rules: [{allow: owner}]) {
+  id: ID! @primaryKey
+  parentId: ID @index(name: "byParent", queryField: "requestByParent")
+  parent: Request @belongsTo(fields: ["parentId"])
+  subRequests: [Request] @hasMany(indexName: "byParent")
+  title: String!
+  content: String
+  status: RequestStatus!
+
+  # userId: ID 
+  rosProviderId: ID 
+  userId: ID @index(name: "byUser", queryField: "requestByUser")
+  # rosProviderId: ID @index(name: "byRosProvider", queryField: "requestByRosProvider")
+  user: User @belongsTo(fields: ["userId"])
+  # rosProvider: User @belongsTo(fields: ["rosProviderId"])
+
+  serviceId: ID @index(name: "byService", queryField: "requestByService")
+  service: Service @belongsTo(fields: ["serviceId"])
+  paymentId: ID @index(name: "byPayment", queryField: "requestByPayment")
+  payment: Payment @belongsTo(fields: ["paymentId"])
+  assets: [File]
+  outputs: [File]
+  messages: [Message]!
+}
+
+type Service @model @auth(rules: [{allow: public, operations: [read]}, {allow: owner, operations: [read, update, create]}]) {
+  id: ID! @primaryKey
+  title: String!
+  content: String
+  priceRange: PriceRange
+  image: Image
+  roshubPoints: [RoshubPoint] @manyToMany(relationName: "RoshubPointService")
+  requests: [Request] @hasMany(indexName: "byService")
+}
+
+type RoshubPoint @model @auth(rules: [{allow: owner}]) {
+  id: ID! @primaryKey
+  title: String!
+  comments: [Comment]
+  userId: ID! @index(name: "byUserRoshubPoint", queryField: "roshubPointByUser")
+  user: User @belongsTo(fields: ["userId"])
+  services: [Service] @manyToMany(relationName: "RoshubPointService")
+  paymentType: [PaymentType]
+  location: Location
+}
+
+type Payment @model @auth(rules: [{allow: owner}]) {
+  id: ID! @primaryKey
+  requests: [Request] @hasMany(indexName: "byPayment")
+  paymentInstrument: AWSPhone!
+  type: PaymentType!
+  price: Float
+  mnoId: String
+  mnoRespond: AWSJSON
+  status: PaymentStatus
+}
+
+
+type RosProvider {
+  services: [String!]
+  rating: Int
+  status: RosProviderStatus
+  comments: [Comment]
+}
+
+type Location {
+  latitude: String!
+  longitude: String!
+  addresse: String!
+}
+
+type Image {
+  s3Key: String!
+  type: String!
+  size: Float
+}
+
+type Comment {
+  user: ID!
+  content: String
+}
+
+type PriceRange {
+  min: Float
+  max: Float
+  price: Float
+}
+
+type File {
+  s3Key: String!
+  type: String
+  size: Float
+  version: Int!
+}
+
+type Message {
   id: ID!
-  name: String!
-  amoungt: Int!
-  imagePath: String
-  rating: Float
+  userId: ID!
+  content: String
+  image: Image
+  createdAt: AWSDateTime
+  status: MessageStatus
+}
+
+type Suggestion {
+  id: ID!
+  title: String
+  content: String
+  status: SuggestionState
+}
+
+enum Role {
+  USER
+  ROSPROVIDER
+  ADMIN
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETE
+  CANCELED
+}
+
+enum RosProviderStatus {
+  AVAILABLE
+  NOT_AVAILABLE
+  BUSY
+}
+
+enum PaymentType {
+  MOMO
+  CASH
+  OM
+  PREPAID_CARD
+}
+
+enum SuggestionState {
+  PENDING
+  GRANDED
+  CANCELED
+}
+
+enum RequestStatus {
+  PENDING
+  SEEN
+  COMPLETE
+  CANCELED
+}
+
+enum MessageStatus {
+  PENDING
+  SEND
+  RECIEVED
 }
  

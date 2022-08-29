@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:roshup_mobile_app_flutter_aws/models/ModelProvider.dart';
 
 import '../../main.dart';
+import '../../utils/ServiceList.dart';
 import 'design_course_app_theme.dart';
 
 class ServiceListView extends StatefulWidget {
@@ -51,12 +52,12 @@ class _ServiceListViewState extends State<ServiceListView>
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: SERVICE.ServiceList.length,
+                itemCount: AllServiceList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = SERVICE.ServiceList.length > 10
+                  final int count = AllServiceList.length > 10
                       ? 10
-                      : SERVICE.ServiceList.length;
+                      : AllServiceList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -66,7 +67,7 @@ class _ServiceListViewState extends State<ServiceListView>
                   animationController?.forward();
 
                   return SERVICEView(
-                    service: SERVICE.ServiceList[index],
+                    service: AllServiceList[index],
                     animation: animation,
                     animationController: animationController,
                     callback: widget.callBack,
@@ -91,7 +92,7 @@ class SERVICEView extends StatelessWidget {
       : super(key: key);
 
   final VoidCallback? callback;
-  final SERVICE? service;
+  final Service? service;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -138,7 +139,7 @@ class SERVICEView extends StatelessWidget {
                                             padding:
                                                 const EdgeInsets.only(top: 16),
                                             child: Text(
-                                              service!.name,
+                                              service!.title,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -163,7 +164,7 @@ class SERVICEView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${service!.rating} lesson',
+                                                  'rating lesson',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -177,7 +178,7 @@ class SERVICEView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        '${service!.rating}',
+                                                        'rating',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -214,7 +215,7 @@ class SERVICEView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  '\$${service!.amoungt}',
+                                                  '\$${service!.priceRange!.price}',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
@@ -270,7 +271,7 @@ class SERVICEView extends StatelessWidget {
                                   const BorderRadius.all(Radius.circular(16.0)),
                               child: AspectRatio(
                                   aspectRatio: 1.0,
-                                  child: Image.asset(service!.imagePath!)),
+                                  child: Image.asset(service!.image!.s3Key)),
                             )
                           ],
                         ),

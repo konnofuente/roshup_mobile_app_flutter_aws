@@ -4,9 +4,9 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../models/SERVICE.dart';
+import '../../models/Service.dart';
+import 'services_event.dart';
 
-part 'services_event.dart';
 part 'services_state.dart';
 
 class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
@@ -22,9 +22,9 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     emit(ServicesState(
         allService: List.from(state.allService)..add(event.service)));
 
-    final newService = SERVICE(
-      name: event.service.name,
-      amoungt: event.service.amoungt,
+    final newService = Service(
+      title: event.service.title,
+      priceRange: event.service.priceRange,
     );
 
     try {
@@ -40,14 +40,14 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     final state = this.state;
     final service = event.service;
     final index = state.allService.indexOf(service);
-    List<SERVICE> allService = List.from(state.allService)..remove(service);
+    List<Service> allService = List.from(state.allService)..remove(service);
     allService.insert(
         index,
         service.copyWith(
-            name: event.service.name, amoungt: event.service.amoungt));
+            title: event.service.title, priceRange: event.service.priceRange));
 
     final updatedItem = service.copyWith(
-        name: event.service.name, amoungt: event.service.amoungt);
+        title: event.service.title, priceRange: event.service.priceRange);
 
     try {
       await Amplify.DataStore.save(updatedItem);
@@ -70,7 +70,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     final service = event.service;
     final index = state.allService.indexOf(service);
 
-    List<SERVICE> allService = List.from(state.allService)..remove(service);
+    List<Service> allService = List.from(state.allService)..remove(service);
     
 
     try {

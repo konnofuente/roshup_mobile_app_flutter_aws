@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/Login/UserVerification.dart';
 import 'package:roshup_mobile_app_flutter_aws/services/provider.dart';
 
+import '../blocs/bloc_export.dart';
+import '../models/User.dart';
+
 class AuthServices {
   Future<void> userSignUp(uname, pwd, phno, email, context) async {
     var attributes = {'email': '$email', 'name': '$uname'};
@@ -17,6 +20,7 @@ class AuthServices {
               CognitoUserAttributeKey.name: uname,
               CognitoUserAttributeKey.email: email,
               CognitoUserAttributeKey.phoneNumber: phno,
+              CognitoUserAttributeKey.picture: ' ',
             },
           ));
       if (res.isSignUpComplete) {
@@ -26,7 +30,7 @@ class AuthServices {
                 builder: (context) => UserVerification(phno: phno)));
       }
     } on AuthException catch (e) {
-      print(e.message);
+      print("could not signUp user "+e.message);
     }
   }
 
@@ -68,18 +72,18 @@ class AuthServices {
       // }
       
     try {
-      SignInResult res =
-          await Amplify.Auth.signIn(username: phno, password: pwd);
-
-      Provider.of<UserLoginStatus>(context, listen: false)
-          .changeUserStatus(res.isSignedIn);
-      Provider.of<UserLoginStatus>(context, listen: false)
-          .changeActExist(res.isSignedIn);
 
       // bool alertDia = res.isSignedIn;
       // alertDia ? '' : showalertDialogue();
       // print('the alert box is ${alertDia}   !!!!!!!!!!!!!!!!!!');
 
+      SignInResult res =
+          await Amplify.Auth.signIn(username: phno, password: pwd);
+
+      Provider.of<AppStatus>(context, listen: false)
+          .changeUserStatus(res.isSignedIn);
+      Provider.of<AppStatus>(context, listen: false)
+          .changeActExist(res.isSignedIn);
 
     } on AuthException catch (e) {
       print(e.message);
@@ -89,11 +93,43 @@ class AuthServices {
   Future<void> signOutCurrentUser(context) async {
     try {
       Amplify.Auth.signOut();
-      Provider.of<UserLoginStatus>(context, listen: false)
+      Provider.of<AppStatus>(context, listen: false)
           .changeUserStatus(false);
       print('logout complete');
     } on AuthException catch (e) {
       print(e.message);
     }
   }
+
+
+   Future<void> fetchUserInfo(BuildContext context, List<String> value,User user) async {
+    try {
+      print('userinfo');
+      final result = await Amplify.Auth.fetchUserAttributes();
+      for (final element in result) {
+        print('key: ${element.userAttributeKey}; value: ${element.value}');
+        element.value.contains('true') || element.value.contains('false')
+            ? null
+            : value.addAll([element.value]);
+      }
+      // if (value.length > 3) {
+      //   user = User(
+      //       id: value[0],
+      //       name: value[1],
+      //       phone_number: value[2],
+      //       email: value[3],
+      //       image: '');
+
+      //   context.read<UserBloc>()..add(AddUsers(users: user));
+      // } else {
+      //   print('Not enought parameters fetch to create local user');
+      // }
+      // print(user);
+    } on AuthException catch (e) {
+      print(e.message);
+    }
+  }
+
+  
+
 }

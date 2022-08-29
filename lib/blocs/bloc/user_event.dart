@@ -16,38 +16,35 @@ class AddUsers extends UserEvent {
   List<Object> get props => [users];
 }
 
-// class UpdateUsersName extends UserEvent {
-//   final User users;
-//   const UpdateUsersName({
-//     required this.users,
-//   });
-//   @override
-//   List<Object> get props => [users];
-// }
+class ClearLocalInfo extends UserEvent {
+  const ClearLocalInfo();
+}
 
 class UpdateUsersName extends UserEvent {
-  final String name;
+  final String firstName;
+  final String lastName;
   final User users;
   const UpdateUsersName({
-    required this.name,
+    required this.firstName,
+    required this.lastName,
     required this.users,
   });
   @override
   List<Object> get props => [
-        {name, users}
+        {firstName,lastName, users}
       ];
 }
 
 class UpdatePhoneNumber extends UserEvent {
-  final String phone_number;
+  final String phoneNumber;
   final User users;
   const UpdatePhoneNumber({
-    required this.phone_number,
+    required this.phoneNumber,
     required this.users,
   });
   @override
   List<Object> get props => [
-        {phone_number, users}
+        {phoneNumber, users}
       ];
 }
 
@@ -65,3 +62,5 @@ class UpdateUserEmail extends UserEvent {
         {email, users}
       ];
 }
+
+

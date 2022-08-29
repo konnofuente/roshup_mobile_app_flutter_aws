@@ -12,16 +12,10 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "api": {
-        "Roshub": {
+        "roshub": {
             "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
-        }
-    },
-    "storage": {
-        "s3roshubstoragea84f3dc5": {
-            "BucketName": "string",
-            "Region": "string"
         }
     }
 }

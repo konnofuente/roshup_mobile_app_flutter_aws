@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,11 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/bloc/user_bloc.dart';
 import '../models/User.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'home/app_theme.dart';
 import 'home/home_screen.dart';
-
-
 
 class AppPlatform extends StatefulWidget {
   @override
@@ -44,10 +40,10 @@ class _AppPlatformState extends State<AppPlatform> {
       if (value.length > 3) {
         user = User(
             id: value[0],
-            name: value[1],
-            phone_number: value[2],
+            firstName: value[1],
+            phoneNumber: value[2],
             email: value[3],
-            image: '');
+             );
 
         context.read<UserBloc>()..add(AddUsers(users: user));
       } else {
@@ -58,7 +54,6 @@ class _AppPlatformState extends State<AppPlatform> {
       print(e.message);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

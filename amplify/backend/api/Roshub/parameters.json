@@ -1,5 +1,11 @@
 {
-  "AppSyncApiName": "Roshub",
+  "AppSyncApiName": "roshub",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authRoshub",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

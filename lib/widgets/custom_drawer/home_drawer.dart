@@ -1,7 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../blocs/bloc/user_bloc.dart';
 import '../../screens/home/app_theme.dart';
+import '../../services/auth.dart';
+import '../../services/provider.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -167,7 +171,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   color: Colors.red,
                 ),
                 onTap: () {
-                  onTapped();
+                   Provider.of<UserBloc>(context, listen: false)
+                        .add( ClearLocalInfo());
+                        print('let try');
+                        AuthServices().signOutCurrentUser(context);
+                        Provider.of<AppStatus>(context, listen: false)
+                            .changeUserStatus(false);
                 },
               ),
               SizedBox(

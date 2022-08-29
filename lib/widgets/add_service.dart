@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc_export.dart';
 import 'package:roshup_mobile_app_flutter_aws/models/ModelProvider.dart';
 
+import '../blocs/bloc/services_event.dart';
+
 class AddServiceScreen extends StatefulWidget {
   const AddServiceScreen({Key? key}) : super(key: key);
 
@@ -50,15 +52,13 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                     child: const Text('cancel')),
                 ElevatedButton(
                     onPressed: () {
-                      var Service = SERVICE(
-                          name: titleController.text,
-                          // name:input_name,
-                          // amoungt: input_agt,
-                          amoungt: int.parse(amoungtController.text));
+                      var service = Service(
+                          title: titleController.text,
+                          priceRange: PriceRange(price: double.parse(amoungtController.text) ),);
                       titleController.text.isNotEmpty
                           ? context
                               .read<ServicesBloc>()
-                              .add(AddServices(service: Service))
+                              .add(AddServices(service: service))
                           : print(
                               'No value entered!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1');
                       // Navigator.pop(context);

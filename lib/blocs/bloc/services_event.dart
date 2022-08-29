@@ -1,4 +1,6 @@
-part of 'services_bloc.dart';
+import 'package:equatable/equatable.dart';
+import '../../models/Service.dart';
+
 
 abstract class ServicesEvent extends Equatable {
   const ServicesEvent();
@@ -8,7 +10,7 @@ abstract class ServicesEvent extends Equatable {
 }
 
 class AddServices extends ServicesEvent {
-  final SERVICE service;
+  final Service service;
   const AddServices({
     required this.service,
   });
@@ -19,7 +21,7 @@ class AddServices extends ServicesEvent {
 
 
 class UpdateServices extends ServicesEvent {
-  final SERVICE service;
+  final Service service;
   const UpdateServices({
     required this.service,
   });
@@ -30,7 +32,7 @@ class UpdateServices extends ServicesEvent {
 
 
 class DeleteServices extends ServicesEvent {
-  final SERVICE service;
+  final Service service;
   const DeleteServices({
     required this.service,
   });

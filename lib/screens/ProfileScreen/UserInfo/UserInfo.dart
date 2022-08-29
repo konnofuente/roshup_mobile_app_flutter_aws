@@ -17,10 +17,7 @@ class UserInfo extends StatefulWidget {
 class _UserInfoState extends State<UserInfo> {
   @override
   Widget build(BuildContext context) {
-    String? name = 'testname',
-        phone = 'testphone number',
-        email = '@gmail.com',
-        description = 'test desciption';
+
     String image = "assets/images/IMG_2127.JPG";
 
     return BlocBuilder<UserBloc, UserState>(
@@ -52,13 +49,9 @@ class _UserInfoState extends State<UserInfo> {
                     imagePath: image,
                     onPressed: () {},
                   )),
-              buildUserInfoDisplay(state.allUsers[0].name, 'Name', const EditNameFormPage()),
-              buildUserInfoDisplay(state.allUsers[0].phone_number, 'Phone', const EditPhoneFormPage()),
+              buildUserInfoDisplay(state.allUsers[0].firstName ,'Name', const EditNameFormPage()),
+              buildUserInfoDisplay(state.allUsers[0].phoneNumber, 'Phone', const EditPhoneFormPage()),
               buildUserInfoDisplay(state.allUsers[0].email, 'Email', const EditEmailFormPage()),
-              // Expanded(
-              //   child: buildAbout(description),
-              //   flex: 4,
-              // )
             ],
           ),
         );
@@ -112,57 +105,6 @@ class _UserInfoState extends State<UserInfo> {
                   ]))
             ],
           ));
-
-  // Widget builds the About Me Section
-  // Widget buildAbout(String user) => Padding(
-  //     //type user was remove as parameter
-  //     padding: const EdgeInsets.only(bottom: 10),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         const Text(
-  //           'Tell Us About Yourself',
-  //           style: TextStyle(
-  //             fontSize: 15,
-  //             fontWeight: FontWeight.w500,
-  //             color: Colors.grey,
-  //           ),
-  //         ),
-  //         const SizedBox(height: 1),
-  //         Container(
-  //             width: 350,
-  //             height: 200,
-  //             decoration: const BoxDecoration(
-  //                 border: Border(
-  //                     bottom: BorderSide(
-  //               color: Colors.grey,
-  //               width: 1,
-  //             ))),
-  //             child: Row(children: [
-  //               Expanded(
-  //                   child: TextButton(
-  //                       onPressed: () {
-  //                         navigateSecondPage(EditDescriptionFormPage());
-  //                       },
-  //                       child: Padding(
-  //                           padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-  //                           child: Align(
-  //                               alignment: Alignment.topLeft,
-  //                               child: Text(
-  //                                 user,
-  //                                 style: const TextStyle(
-  //                                   fontSize: 16,
-  //                                   height: 1.4,
-  //                                 ),
-  //                               ))))),
-  //               const Icon(
-  //                 Icons.keyboard_arrow_right,
-  //                 color: Colors.grey,
-  //                 size: 40.0,
-  //               )
-  //             ]))
-  //       ],
-  //     ));
 
   // Refrshes the Page after updating user info.
   FutureOr onGoBack(dynamic value) {

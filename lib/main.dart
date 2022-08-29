@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/amplifyconfiguration.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc_export.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/app_platform.dart';
-import 'package:roshup_mobile_app_flutter_aws/screens/home/home_screen.dart';
 import 'models/ModelProvider.dart';
 import 'screens/Login/SignIn.dart';
 import 'services/provider.dart';
@@ -19,7 +18,7 @@ void main() {
     () => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(
           create: (_) =>
-              UserLoginStatus(userLoggedIn: false, isActExist: false)),
+              AppStatus(userLoggedIn: false, isActExist: false, isLoading: false)),
     ], child: MyApp())),
   ); 
 }
@@ -62,16 +61,14 @@ class _MyAppState extends State<MyApp> {
 
     // Once Plugins are added, configure Amplify
     await Amplify.configure(amplifyconfig);
-    await getAuthStatus();
+    // await getAuthStatus();
     try {
       setState(() {
         _amplifyConfigured = true;
       });
     } catch (e) {
-      print(e);
+      print("could not intialise Amplify $e");
     }
-
-
   }
 
   Future<void> getAuthStatus() async {
@@ -81,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           _amplifyAuthComplete = true;
         });
-        Provider.of<UserLoginStatus>(context, listen: false)
+        Provider.of<AppStatus>(context, listen: false)
             .changeUserStatus(val.isSignedIn);
       } else {
         setState(() {
@@ -96,7 +93,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var loginState = Provider.of<UserLoginStatus>(context).userLoggedIn;
+    var loginState = Provider.of<AppStatus>(context).userLoggedIn;
 
     return MultiBlocProvider(
       providers: [

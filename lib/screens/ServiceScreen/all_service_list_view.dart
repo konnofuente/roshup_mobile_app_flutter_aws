@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../../main.dart';
 import '../../models/ModelProvider.dart';
-import '../../models/SERVICE.dart';
+import '../../models/Service.dart';
+import '../../utils/ServiceList.dart';
 import 'service_info_screen.dart';
 import 'design_course_app_theme.dart';
 
@@ -50,9 +50,9 @@ class _AllServiceListViewState extends State<AllServiceListView>
                 childAspectRatio: 0.8,
               ),
               children: List<Widget>.generate(
-                SERVICE.AllServiceList.length,
+                AllServiceList.length,
                 (int index) {
-                  final int count = SERVICE.AllServiceList.length;
+                  final int count = AllServiceList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -64,7 +64,7 @@ class _AllServiceListViewState extends State<AllServiceListView>
                   animationController?.forward();
                   return SERVICEView(
                     callback: widget.callBack,
-                    service: SERVICE.AllServiceList[index],
+                    service: AllServiceList[index],
                     animation: animation,
                     animationController: animationController,
                   );
@@ -97,7 +97,7 @@ class SERVICEView extends StatelessWidget {
       : super(key: key);
 
   final VoidCallback? callback;
-  final SERVICE? service;
+  final Service? service;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -143,9 +143,9 @@ class SERVICEView extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 16, left: 16, right: 16),
                                             child: Text(
-                                              service!.name,
+                                              service!.title,
                                               textAlign: TextAlign.left,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
                                                 letterSpacing: 0.27,
@@ -168,7 +168,7 @@ class SERVICEView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${service!.rating} lesson',
+                                                  'R',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -182,7 +182,7 @@ class SERVICEView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        '${service!.rating}',
+                                                        'rating',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -246,7 +246,7 @@ class SERVICEView extends StatelessWidget {
                                 const BorderRadius.all(Radius.circular(16.0)),
                             child: AspectRatio(
                                 aspectRatio: 1.28,
-                                child: Image.asset(service!.imagePath!)),
+                                child: Image.asset(service!.image!.s3Key)),
                           ),
                         ),
                       ),
