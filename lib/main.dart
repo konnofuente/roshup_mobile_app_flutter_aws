@@ -11,16 +11,14 @@ import 'models/ModelProvider.dart';
 import 'screens/Login/SignIn.dart';
 import 'services/provider.dart';
 
-
-
 void main() {
   BlocOverrides.runZoned(
     () => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(
-          create: (_) =>
-              AppStatus(userLoggedIn: false, isActExist: false, isLoading: false)),
+          create: (_) => AppStatus(
+              userLoggedIn: false, isActExist: false, isLoading: false)),
     ], child: MyApp())),
-  ); 
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -33,6 +31,8 @@ class _MyAppState extends State<MyApp> {
   late User user;
   bool _amplifyConfigured = false;
   bool _amplifyAuthComplete = false;
+
+  get AmplifyModelProvider => null;
 
   @override
   void initState() {
@@ -47,17 +47,16 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> loadAppConfig() async {
     await _configureAmplify();
-  }
 
+  }
 
   Future<void> _configureAmplify() async {
     final datastorePlugin =
         AmplifyDataStore(modelProvider: ModelProvider.instance);
-    final api = AmplifyAPI();
+    final api = AmplifyAPI(modelProvider: ModelProvider.instance);
     await Amplify.addPlugin(AmplifyAuthCognito());
     await Amplify.addPlugin(datastorePlugin);
     await Amplify.addPlugin(api);
-    
 
     // Once Plugins are added, configure Amplify
     await Amplify.configure(amplifyconfig);
@@ -89,8 +88,6 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     var loginState = Provider.of<AppStatus>(context).userLoggedIn;
@@ -113,7 +110,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
 
 class HexColor extends Color {
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));

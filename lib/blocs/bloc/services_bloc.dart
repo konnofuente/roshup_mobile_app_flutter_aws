@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:amplify_api/model_mutations.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/Service.dart';
@@ -21,17 +23,27 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     final state = this.state;
     emit(ServicesState(
         allService: List.from(state.allService)..add(event.service)));
-
-    final newService = Service(
-      title: event.service.title,
-      priceRange: event.service.priceRange,
+    var context = event.context;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Successfully saved Service')),
     );
-
     try {
-      await Amplify.DataStore.save(newService);
-      print('Succesfully save!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1');
-    } catch (e) {
-      print('An error occurred while saving SERVICE: $e');
+      final newService = Service(
+        title: event.service.title,
+        content: event.service.content,
+        priceRange: event.service.priceRange,
+      );
+
+      final request = ModelMutations.create(newService);
+      final response = await Amplify.API.mutate(request: request).response;
+
+      final createdService = response.data;
+      if (createdService == null) {
+        print('errors: ${response.errors}');
+      }
+      print('Mutation result: ${createdService?.title}');
+    } on ApiException catch (e) {
+      print('Mutation failed: $e');
     }
   }
 
@@ -56,13 +68,10 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
       print('An error occurred while saving SERVICE: $e');
     }
 
-
-      emit(ServicesState(
+    emit(ServicesState(
       allService: allService,
-      ));
+    ));
   }
-
-
 
   Future<FutureOr<void>> _onDeleteService(
       DeleteServices event, Emitter<ServicesState> emit) async {
@@ -71,7 +80,6 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     final index = state.allService.indexOf(service);
 
     List<Service> allService = List.from(state.allService)..remove(service);
-    
 
     try {
       await Amplify.DataStore.delete(service);
@@ -79,8 +87,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     } catch (e) {
       print('An error occurred while saving SERVICE: $e');
     }
-    
-    emit(ServicesState(allService:allService));
 
-      }
+    emit(ServicesState(allService: allService));
+  }
 }
