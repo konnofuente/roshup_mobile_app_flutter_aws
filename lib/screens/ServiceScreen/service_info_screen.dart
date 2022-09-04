@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../models/Service.dart';
 import 'design_course_app_theme.dart';
 
 class ServiceInfoScreen extends StatefulWidget {
+  final Service service;
+
+  const ServiceInfoScreen({super.key, required this.service});
   @override
   _ServiceInfoScreenState createState() => _ServiceInfoScreenState();
 }
@@ -95,7 +99,7 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              'Web Design\nCourse',
+                              widget.service.title,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -113,7 +117,7 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  '\$28.99',
+                                  '${widget.service.priceRange!.price.toString()} XAF',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -122,27 +126,27 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                                     color: DesignCourseAppTheme.nearlyBlue,
                                   ),
                                 ),
-                                Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '4.3',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w200,
-                                          fontSize: 22,
-                                          letterSpacing: 0.27,
-                                          color: DesignCourseAppTheme.grey,
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        color: DesignCourseAppTheme.nearlyBlue,
-                                        size: 24,
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                // Container(
+                                //   child: Row(
+                                //     children: <Widget>[
+                                //       Text(
+                                //         '4.3',
+                                //         textAlign: TextAlign.left,
+                                //         style: TextStyle(
+                                //           fontWeight: FontWeight.w200,
+                                //           fontSize: 22,
+                                //           letterSpacing: 0.27,
+                                //           color: DesignCourseAppTheme.grey,
+                                //         ),
+                                //       ),
+                                //       Icon(
+                                //         Icons.star,
+                                //         color: DesignCourseAppTheme.nearlyBlue,
+                                //         size: 24,
+                                //       ),
+                                //     ],
+                                //   ),
+                                // )
                               ],
                             ),
                           ),
@@ -153,9 +157,9 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                               padding: const EdgeInsets.all(8),
                               child: Row(
                                 children: <Widget>[
-                                  getTimeBoxUI('24', 'Classe'),
-                                  getTimeBoxUI('2hours', 'Time'),
-                                  getTimeBoxUI('24', 'Seat'),
+                                  getTimeBoxUI('MIN', '${widget.service.priceRange!.min.toString()}'),
+                                  getTimeBoxUI('AVERAGE', '${widget.service.priceRange!.price.toString()}'),
+                                  getTimeBoxUI('MAX', '${widget.service.priceRange!.max.toString()}'),
                                 ],
                               ),
                             ),
@@ -168,7 +172,7 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                                 padding: const EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
                                 child: Text(
-                                  'Lorem ipsum is simply dummy text of printing & typesetting industry, Lorem ipsum is simply dummy text of printing & typesetting industry.',
+                                  widget.service.content!,
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -234,7 +238,7 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                                       ),
                                       child: Center(
                                         child: Text(
-                                          'Join Course',
+                                          'REQUEST SERVICE',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,

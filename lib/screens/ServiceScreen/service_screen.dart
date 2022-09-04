@@ -92,7 +92,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
         ),
         ServiceListView(
           callBack: () {
-            moveTo();
+            // moveTo();
           },
         ),
       ],
@@ -128,14 +128,14 @@ class _ServiceScreenState extends State<ServiceScreen> {
     );
   }
 
-  void moveTo() {
-    Navigator.push<dynamic>(
-      context,
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => ServiceInfoScreen(),
-      ),
-    );
-  }
+  // void moveTo() {
+  //   Navigator.push<dynamic>(
+  //     context,
+  //     MaterialPageRoute<dynamic>(
+  //       builder: (BuildContext context) => ServiceInfoScreen(),
+  //     ),
+  //   );
+  // }
 
   Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
     String txt = '';

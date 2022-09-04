@@ -126,9 +126,9 @@ class MyCustomFormState extends State<MyCustomForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                    onPressed: () => {Navigator.pop(context)},
-                    child: const Text('cancel')),
+                // TextButton(
+                //     onPressed: () => {Navigator.pop(context)},
+                //     child: const Text('cancel')),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

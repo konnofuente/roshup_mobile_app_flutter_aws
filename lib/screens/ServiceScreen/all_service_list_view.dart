@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/bloc_export.dart';
 import '../../main.dart';
 import '../../models/ModelProvider.dart';
 import '../../models/Service.dart';
@@ -31,58 +33,62 @@ class _AllServiceListViewState extends State<AllServiceListView>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: FutureBuilder<bool>(
-        future: getData(),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (!snapshot.hasData) {
-            return const SizedBox();
-          } else {
-            return GridView(
-              padding: const EdgeInsets.all(8),
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 32.0,
-                crossAxisSpacing: 32.0,
-                childAspectRatio: 0.8,
-              ),
-              children: List<Widget>.generate(
-                AllServiceList.length,
-                (int index) {
-                  final int count = AllServiceList.length;
-                  final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                    CurvedAnimation(
-                      parent: animationController!,
-                      curve: Interval((1 / count) * index, 1.0,
-                          curve: Curves.fastOutSlowIn),
-                    ),
-                  );
-                  animationController?.forward();
-                  return SERVICEView(
-                    callback: widget.callBack,
-                    service: AllServiceList[index],
-                    animation: animation,
-                    animationController: animationController,
-                  );
-                },
-              ),
-            );
-          }
-        },
-      ),
+    return BlocBuilder<ServicesBloc, ServicesState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: FutureBuilder<bool>(
+            future: getData(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (!snapshot.hasData) {
+                return const SizedBox();
+              } else {
+                return GridView(
+                  padding: const EdgeInsets.all(8),
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 32.0,
+                    crossAxisSpacing: 32.0,
+                    childAspectRatio: 0.8,
+                  ),
+                  children: List<Widget>.generate(
+                    state.allService.length,
+                    (int index) {
+                      final int count = state.allService.length;
+                      final Animation<double> animation =
+                          Tween<double>(begin: 0.0, end: 1.0).animate(
+                        CurvedAnimation(
+                          parent: animationController!,
+                          curve: Interval((1 / count) * index, 1.0,
+                              curve: Curves.fastOutSlowIn),
+                        ),
+                      );
+                      animationController?.forward();
+                      return SERVICEView(
+                        callback: widget.callBack,
+                        service: state.allService[index],
+                        animation: animation,
+                        animationController: animationController,
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          ),
+        );
+      },
     );
   }
 }
 
-void moveTo(BuildContext context) {
+void moveTo(BuildContext context,Service service) {
   Navigator.push<dynamic>(
     context,
     MaterialPageRoute<dynamic>(
-      builder: (BuildContext context) => ServiceInfoScreen(),
+      builder: (BuildContext context) => ServiceInfoScreen(service: service),
     ),
   );
 }
@@ -114,7 +120,7 @@ class SERVICEView extends StatelessWidget {
             child: InkWell(
               splashColor: Colors.transparent,
               onTap: () {
-                moveTo(context);
+                moveTo(context,service!);
               },
               child: SizedBox(
                 height: 280,
@@ -168,7 +174,7 @@ class SERVICEView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  'R',
+                                                  'PRICE :',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -182,26 +188,20 @@ class SERVICEView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        'rating',
+                                                        service!.priceRange?.price.toString() == null?
+                                                        '00000 ':service!.priceRange!.price.toString(),
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w200,
-                                                          fontSize: 18,
+                                                          fontSize: 15,
                                                           letterSpacing: 0.27,
                                                           color:
-                                                              DesignCourseAppTheme
-                                                                  .grey,
+                                                              Color.fromARGB(255, 56, 249, 94),
                                                         ),
                                                       ),
-                                                      Icon(
-                                                        Icons.star,
-                                                        color:
-                                                            DesignCourseAppTheme
-                                                                .nearlyBlue,
-                                                        size: 20,
-                                                      ),
+                                                      
                                                     ],
                                                   ),
                                                 )
@@ -246,7 +246,8 @@ class SERVICEView extends StatelessWidget {
                                 const BorderRadius.all(Radius.circular(16.0)),
                             child: AspectRatio(
                                 aspectRatio: 1.28,
-                                child: Image.asset(service!.image!.s3Key)),
+                                child: Image.asset("assets/design_course/interFace1.png")),
+                                // child: Image.asset(service!.image!.s3Key)),
                           ),
                         ),
                       ),

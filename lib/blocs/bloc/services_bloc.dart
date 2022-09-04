@@ -21,12 +21,10 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
   Future<FutureOr<void>> _onAddService(
       AddServices event, Emitter<ServicesState> emit) async {
     final state = this.state;
+    var context = event.context;
+    String alertText = 'could not save Service .check your mobile connection';
     emit(ServicesState(
         allService: List.from(state.allService)..add(event.service)));
-    var context = event.context;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Successfully saved Service')),
-    );
     try {
       final newService = Service(
         title: event.service.title,
@@ -38,14 +36,19 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
       final response = await Amplify.API.mutate(request: request).response;
 
       final createdService = response.data;
+
       if (createdService == null) {
+        AlertDialogue(context, alertText);
         print('errors: ${response.errors}');
-      }
+      } 
+      saveServiceDialogue(context, event.service);
       print('Mutation result: ${createdService?.title}');
     } on ApiException catch (e) {
       print('Mutation failed: $e');
     }
   }
+
+
 
   Future<FutureOr<void>> _onUpdateService(
       UpdateServices event, Emitter<ServicesState> emit) async {
@@ -61,12 +64,6 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     final updatedItem = service.copyWith(
         title: event.service.title, priceRange: event.service.priceRange);
 
-    try {
-      await Amplify.DataStore.save(updatedItem);
-      print('Succesfully UPDATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1');
-    } catch (e) {
-      print('An error occurred while saving SERVICE: $e');
-    }
 
     emit(ServicesState(
       allService: allService,
@@ -89,5 +86,70 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     }
 
     emit(ServicesState(allService: allService));
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  void saveServiceDialogue(BuildContext context, Service service) {
+    AlertDialog alert = AlertDialog(
+      title: Text("Successfully Saved Service"),
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+        child: Column(
+          children: [
+            Text('SERVICE NAME: ${service.title}'),
+            Text('SERVICE CONTENT: ${service.content}'),
+            Text('SERVICE MAX PRICE: ${service.priceRange?.max}'),
+            Text('SERVICE MIN PRICE: ${service.priceRange?.min}'),
+            Text('SERVICE AVERAGE PRICE: ${service.priceRange?.price}'),
+          ],
+        ),
+      ),
+      // actions: [
+      //   okButton,
+      // ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void AlertDialogue(BuildContext context, String alertText) {
+    AlertDialog alert = AlertDialog(
+      title: Text("Error"),
+      content: Text(alertText),
+      // actions: [
+      //   okButton,
+      // ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+    // Widget okButton = FlatButton(
+    //   child: Text("OK"),
+    //   onPressed: () {
+    //     Navigator.pop(context);
+    //   },
+    // );
   }
 }

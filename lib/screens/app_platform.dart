@@ -1,9 +1,14 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
+
 import 'dart:io';
+import 'package:amplify_api/model_queries.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:roshup_mobile_app_flutter_aws/blocs/bloc/services_bloc.dart';
 import '../blocs/bloc/user_bloc.dart';
+import '../models/Service.dart';
 import '../models/User.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'home/app_theme.dart';
@@ -25,9 +30,20 @@ class _AppPlatformState extends State<AppPlatform> {
 
   Future<void> loadAppConfig() async {
     await fetchUserInfo();
+    queryListItems();
+    rememberCurrentDevice();
   }
 
-    Future<void> fetchUserInfo() async {
+  Future<void> rememberCurrentDevice() async {
+    try {
+      await Amplify.Auth.rememberDevice();
+      print('Remember device succeeded');
+    } on Exception catch (e) {
+      print('Remember device failed with error: $e');
+    }
+  }
+
+  Future<void> fetchUserInfo() async {
     try {
       print('userinfo');
       final result = await Amplify.Auth.fetchUserAttributes();
@@ -39,19 +55,36 @@ class _AppPlatformState extends State<AppPlatform> {
       }
       if (value.length > 3) {
         user = User(
-            id: value[0],
-            firstName: value[1],
-            phoneNumber: value[2],
-            email: value[3],
-             );
+          id: value[0],
+          firstName: value[1],
+          phoneNumber: value[2],
+          email: value[3],
+        );
 
-        context.read<UserBloc>()..add(AddUsers(users: user));
+        context.read<UserBloc>().add(AddUsers(users: user));
       } else {
         print('Not enought parameters fetch to create local user');
       }
       print(user);
     } on AuthException catch (e) {
       print(e.message);
+    }
+  }
+
+  Future<void> queryListItems() async {
+    try {
+      final request = ModelQueries.list(Service.classType);
+      final response = await Amplify.API.query(request: request).response;
+
+      final Services = response.data!.items;
+      if (Services == null) {
+        print('errors: ${response.errors}');
+      }
+      // ignore: avoid_single_cascade_in_expression_statements, use_build_context_synchronously
+      Provider.of<ServicesBloc>(context, listen: false)
+        ..emit(ServicesState(allService: Services));
+    } on ApiException catch (e) {
+      print('Query failed: $e');
     }
   }
 

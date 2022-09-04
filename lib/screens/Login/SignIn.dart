@@ -94,22 +94,27 @@ class _SignInState extends State<SignIn> {
                         }),
                     SizedBox(height: 40),
                     ElevatedButton(
-                      child: Text('LOGIN'),
+                      style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(300, 50)),
+                      child: const Text('LOGIN'),
                       onPressed: () async {
-                        print('let try');
-                        AuthServices().userSignIn(phone_num, pwd, context);
-                        var alertDia =
+                        if (_formKey.currentState!.validate()) {
+                          AuthServices().userSignIn(phone_num, pwd, context);
+                          var alertDia =
                             Provider.of<AppStatus>(context, listen: false)
                                 .isActExist;
-                        // alertDia ? '' : showalertDialogue();
-                        print(
-                            'the alert box is ${alertDia}   !!!!!!!!!!!!!!!!!!');
-                        print('phone number: ${phone_num} and paswword ${pwd}');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Processing Data')),
+                          );
+                        }
+                       // alertDia ? '' : showalertDialogue();
                       },
                     ),
                   ],
                 ),
               ),
+
+
               TextButton(
                 child: const Text(
                   'Don\'t have an account?',

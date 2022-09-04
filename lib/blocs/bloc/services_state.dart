@@ -1,7 +1,7 @@
 part of 'services_bloc.dart';
 
 class ServicesState extends Equatable {
-  final List<Service> allService;
+  final List<Service?> allService;
   const ServicesState(
 {    this.allService = const <Service>[],}
     );
