@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:roshup_mobile_app_flutter_aws/widgets/add_service.dart';
 import '../../main.dart';
 import '../home/app_theme.dart';
-import 'service_list_view.dart';
-import 'service_info_screen.dart';
 import 'design_course_app_theme.dart';
 import 'all_service_list_view.dart';
 
@@ -48,54 +46,6 @@ class _ServiceScreenState extends State<ServiceScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget getCategoryUI() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.only(top: 8.0, left: 18, right: 16),
-          child: Text(
-            'Category',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 22,
-              letterSpacing: 0.27,
-              color: DesignCourseAppTheme.darkerText,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Row(
-              // children: <Widget>[
-              //   getButtonUI(CategoryType.ui, categoryType == CategoryType.ui),
-              //   const SizedBox(
-              //     width: 16,
-              //   ),
-              //   getButtonUI(
-              //       CategoryType.coding, categoryType == CategoryType.coding),
-              //   const SizedBox(
-              //     width: 16,
-              //   ),
-              //   getButtonUI(
-              //       CategoryType.basic, categoryType == CategoryType.basic),
-              // ],
-              ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        ServiceListView(
-          callBack: () {
-            // moveTo();
-          },
-        ),
-      ],
     );
   }
 

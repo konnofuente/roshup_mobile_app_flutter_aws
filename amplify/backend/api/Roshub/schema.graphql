@@ -31,14 +31,12 @@ type Request @model @auth(rules: [{allow: owner}]) {
   title: String!
   content: String
   status: RequestStatus!
-
   # userId: ID 
   rosProviderId: ID 
   userId: ID @index(name: "byUser", queryField: "requestByUser")
-  # rosProviderId: ID @index(name: "byRosProvider", queryField: "requestByRosProvider")
   user: User @belongsTo(fields: ["userId"])
+  # rosProviderId: ID @index(name: "byRosProvider", queryField: "requestByRosProvider")
   # rosProvider: User @belongsTo(fields: ["rosProviderId"])
-
   serviceId: ID @index(name: "byService", queryField: "requestByService")
   service: Service @belongsTo(fields: ["serviceId"])
   paymentId: ID @index(name: "byPayment", queryField: "requestByPayment")

@@ -4,7 +4,6 @@ import '../../blocs/bloc_export.dart';
 import '../../main.dart';
 import '../../models/ModelProvider.dart';
 import '../../models/Service.dart';
-import '../../utils/ServiceList.dart';
 import 'service_info_screen.dart';
 import 'design_course_app_theme.dart';
 

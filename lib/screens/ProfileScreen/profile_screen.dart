@@ -2,7 +2,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:roshup_mobile_app_flutter_aws/screens/ProfileScreen/ServiceInfo/ServicePrefence.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/ProfileScreen/ServiceInfo/ServiceInfo.dart';
 import 'package:roshup_mobile_app_flutter_aws/services/auth.dart';
 import '../../../blocs/bloc/user_state.dart';
 import '../../../blocs/bloc_export.dart';

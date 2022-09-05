@@ -22,7 +22,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
       AddServices event, Emitter<ServicesState> emit) async {
     final state = this.state;
     var context = event.context;
-    String alertText = 'could not save Service .check your mobile connection';
+    String alertText = 'could not save Service check your mobile connection';
     emit(ServicesState(
         allService: List.from(state.allService)..add(event.service)));
     try {
@@ -40,7 +40,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
       if (createdService == null) {
         AlertDialogue(context, alertText);
         print('errors: ${response.errors}');
-      } 
+      }
       saveServiceDialogue(context, event.service);
       print('Mutation result: ${createdService?.title}');
     } on ApiException catch (e) {
@@ -48,26 +48,31 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     }
   }
 
-
-
   Future<FutureOr<void>> _onUpdateService(
       UpdateServices event, Emitter<ServicesState> emit) async {
-    final state = this.state;
     final service = event.service;
-    final index = state.allService.indexOf(service);
-    List<Service> allService = List.from(state.allService)..remove(service);
-    allService.insert(
-        index,
-        service.copyWith(
-            title: event.service.title, priceRange: event.service.priceRange));
+    final title = event.title;
+    final content = event.content;
+    final priceRange = event.priceRange;
 
-    final updatedItem = service.copyWith(
-        title: event.service.title, priceRange: event.service.priceRange);
+    // final todoWithNewName = originalTodo.copyWith(name: 'new name');
 
+    // final request = ModelMutations.update(todoWithNewName);
+    // final response = await Amplify.API.mutate(request: request).response;
+    // print('Response: $response');
 
-    emit(ServicesState(
-      allService: allService,
-    ));
+    // List<Service> allService = List.from(state.allService)..remove(service);
+    // allService.insert(
+    //     index,
+    //     service.copyWith(
+    //         title: event.service.title, priceRange: event.service.priceRange));
+
+    // final updatedItem = service.copyWith(
+    //     title: event.service.title, priceRange: event.service.priceRange);
+
+    // emit(ServicesState(
+    //   allService: allService,
+    // ));
   }
 
   Future<FutureOr<void>> _onDeleteService(
@@ -87,22 +92,6 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
 
     emit(ServicesState(allService: allService));
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 
   void saveServiceDialogue(BuildContext context, Service service) {
     AlertDialog alert = AlertDialog(

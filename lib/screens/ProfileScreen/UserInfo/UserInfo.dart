@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../blocs/bloc/user_state.dart';
 import '../../../../blocs/bloc_export.dart';
 import '../../../../widgets/display_image_widget.dart';
+import '../../../widgets/buildInfoDisplay.dart';
 import 'EditScreens/edit_email.dart';
 import 'EditScreens/edit_image.dart';
 import 'EditScreens/edit_name.dart';
@@ -43,15 +44,15 @@ class _UserInfoState extends State<UserInfo> {
                       ))),
               InkWell(
                   onTap: () {
-                    navigateSecondPage(const EditImagePage());
+                    navigateSecondPage(const EditImagePage(),context);
                   },
                   child: DisplayImage(
                     imagePath: image,
                     onPressed: () {},
                   )),
-              buildUserInfoDisplay(state.allUsers[0].firstName ,'Name', const EditNameFormPage()),
-              buildUserInfoDisplay(state.allUsers[0].phoneNumber, 'Phone', const EditPhoneFormPage()),
-              buildUserInfoDisplay(state.allUsers[0].email, 'Email', const EditEmailFormPage()),
+              buildInfoDisplay(state.allUsers[0].firstName ,'Name', const EditNameFormPage(),context),
+              buildInfoDisplay(state.allUsers[0].phoneNumber, 'Phone', const EditPhoneFormPage(),context),
+              buildInfoDisplay(state.allUsers[0].email, 'Email', const EditEmailFormPage(),context),
             ],
           ),
         );
@@ -59,61 +60,4 @@ class _UserInfoState extends State<UserInfo> {
     );
   }
 
-  // Widget builds the display item with the proper formatting to display the user's info
-  Widget buildUserInfoDisplay(
-          String? getValue, String title, Widget editPage) =>
-      Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(
-                height: 1,
-              ),
-              Container(
-                  width: 350,
-                  height: 40,
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 1,
-                  ))),
-                  child: Row(children: [
-                    Expanded(
-                        child: TextButton(
-                            onPressed: () {
-                              navigateSecondPage(editPage);
-                            },
-                            child: Text(
-                              getValue!,
-                              style: const TextStyle(fontSize: 16, height: 1.4),
-                            ))),
-                    const Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Colors.grey,
-                      size: 40.0,
-                    )
-                  ]))
-            ],
-          ));
-
-  // Refrshes the Page after updating user info.
-  FutureOr onGoBack(dynamic value) {
-    setState(() {});
-  }
-
-  // Handles navigation and prompts refresh.
-  void navigateSecondPage(Widget editForm) {
-    Route route = MaterialPageRoute(builder: (context) => editForm);
-    Navigator.push(context, route).then(onGoBack);
-  }
 }

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../blocs/bloc/user_bloc.dart';
 import '../../../../../blocs/bloc/user_state.dart';
 import '../../../../../blocs/bloc_export.dart';
 import '../../../../../widgets/appbar_widget.dart';

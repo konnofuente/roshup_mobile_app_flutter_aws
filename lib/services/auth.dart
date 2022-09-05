@@ -48,38 +48,10 @@ class AuthServices {
   }
 
   Future<void> userSignIn(phno, pwd, context) async {
-      //     Future<void> showalertDialogue() async {
-      //   Widget okButton = FlatButton(
-      //     child: Text("OK"),
-      //     onPressed: () {
-      //       Navigator.pop(context);
-      //     },
-      //   );
 
-      //   AlertDialog alert = AlertDialog(
-      //     title: Text("LOGIN ERROR"),
-      //     content: Text("Credential Enter are Invalid "),
-      //     actions: [
-      //       okButton,
-      //     ],
-      //   );
-      //   showDialog(
-      //     context: context,
-      //     builder: (BuildContext context) {
-      //       return alert;
-      //     },
-      //   );
-      // }
-      
     try {
-
-      // bool alertDia = res.isSignedIn;
-      // alertDia ? '' : showalertDialogue();
-      // print('the alert box is ${alertDia}   !!!!!!!!!!!!!!!!!!');
-
       SignInResult res =
           await Amplify.Auth.signIn(username: phno, password: pwd);
-
       Provider.of<AppStatus>(context, listen: false)
           .changeUserStatus(res.isSignedIn);
       Provider.of<AppStatus>(context, listen: false)
