@@ -16,6 +16,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     on<AddServices>(_onAddService);
     on<UpdateServices>(_onUpdateService);
     on<DeleteServices>(_onDeleteService);
+    on<AddRequestServices>(_onAddRequestService);
   }
 
   Future<FutureOr<void>> _onAddService(
@@ -51,9 +52,14 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
   Future<FutureOr<void>> _onUpdateService(
       UpdateServices event, Emitter<ServicesState> emit) async {
     final service = event.service;
-    final title = event.title;
-    final content = event.content;
-    final priceRange = event.priceRange;
+
+    final updatedService = service.copyWith(
+		title: "Lorem ipsum dolor sit amet",
+		content: "Lorem ipsum dolor sit amet",
+		// priceRange: /* Provide a PriceRange instance here */,
+		// image: /* Provide a Image instance here */,
+		roshubPoints: [],
+		requests: []);
 
     // final todoWithNewName = originalTodo.copyWith(name: 'new name');
 
@@ -74,6 +80,10 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     //   allService: allService,
     // ));
   }
+
+
+
+  
 
   Future<FutureOr<void>> _onDeleteService(
       DeleteServices event, Emitter<ServicesState> emit) async {
@@ -140,5 +150,17 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     //     Navigator.pop(context);
     //   },
     // );
+  }
+
+  Future<FutureOr<void>> _onAddRequestService
+  (AddRequestServices event, Emitter<ServicesState> emit) async {
+      final service = event.service;
+
+    final updatedService = service.copyWith(
+		requests: event.requestService);
+
+    final request = ModelMutations.update(updatedService);
+    final response = await Amplify.API.mutate(request: request).response;
+    print('Response: $response');
   }
 }

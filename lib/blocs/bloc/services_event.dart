@@ -29,7 +29,7 @@ class UpdateServices extends ServicesEvent {
   final PriceRange priceRange;
   final BuildContext context;
   const UpdateServices({
-    required this.service, 
+    required this.service,
     required this.content,
     required this.priceRange,
     required this.context,
@@ -38,6 +38,20 @@ class UpdateServices extends ServicesEvent {
 
   @override
   List<Object> get props => [title, content, priceRange, context];
+}
+
+class AddRequestServices extends ServicesEvent {
+  final Service service;
+  final List<Request> requestService;
+  final BuildContext context;
+  const AddRequestServices({
+    required this.service,
+    required this.context,
+    required this.requestService,
+  });
+
+  @override
+  List<Object> get props => [service ,requestService,context];
 }
 
 class DeleteServices extends ServicesEvent {

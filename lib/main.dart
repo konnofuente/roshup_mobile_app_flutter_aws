@@ -8,6 +8,7 @@ import 'package:roshup_mobile_app_flutter_aws/amplifyconfiguration.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc_export.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/app_platform.dart';
 import 'MyPrepa.dart';
+import 'blocs/bloc/request_bloc.dart';
 import 'models/ModelProvider.dart';
 import 'screens/Login/SignIn.dart';
 import 'services/provider.dart';
@@ -40,6 +41,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => ServicesBloc(),
+        ),
+        BlocProvider(
+          create: (context) => RequestBloc(),
         ),
       ],
       child: MaterialApp(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/Request/request_screen.dart';
 import '../../models/Service.dart';
 import 'design_course_app_theme.dart';
 
@@ -157,9 +158,12 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                               padding: const EdgeInsets.all(8),
                               child: Row(
                                 children: <Widget>[
-                                  getTimeBoxUI('MIN', '${widget.service.priceRange!.min.toString()}'),
-                                  getTimeBoxUI('AVERAGE', '${widget.service.priceRange!.price.toString()}'),
-                                  getTimeBoxUI('MAX', '${widget.service.priceRange!.max.toString()}'),
+                                  getTimeBoxUI('MIN',
+                                      '${widget.service.priceRange!.min.toString()}'),
+                                  getTimeBoxUI('AVERAGE',
+                                      '${widget.service.priceRange!.price.toString()}'),
+                                  getTimeBoxUI('MAX',
+                                      '${widget.service.priceRange!.max.toString()}'),
                                 ],
                               ),
                             ),
@@ -237,16 +241,27 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                                         ],
                                       ),
                                       child: Center(
-                                        child: Text(
-                                          'REQUEST SERVICE',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18,
-                                            letterSpacing: 0.0,
-                                            color: DesignCourseAppTheme
-                                                .nearlyWhite,
+                                        child: TextButton(
+                                          child: const Text(
+                                            'REQUEST SERVICE',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                              letterSpacing: 0.0,
+                                              color: DesignCourseAppTheme
+                                                  .nearlyWhite,
+                                            ),
                                           ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      RequestScreen(service: widget.service,)),
+                                            );
+                                            
+                                          },
                                         ),
                                       ),
                                     ),
