@@ -18,7 +18,8 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       AddRequest event, Emitter<RequestState> emit) async {
     final state = this.state;
     var context = event.context;
-    String alertText = 'could not save Request check your mobile connection';
+    String alertText = 'could not send Request check your mobile connection';
+    String successText = 'Successfully send Request';
     emit(RequestState(
         allRequests: List.from(state.allRequests)..add(event.request)));
     try {
@@ -33,7 +34,7 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         AlertDialogue(context, alertText);
         print('errors: ${response.errors}');
       }
-      //saveRequestDialogue(context, event.request);
+      saveRequestDialogue(context, event.request, successText);
       print('Mutation result: ${createdRequest?.title}');
     } on ApiException catch (e) {
       print('Mutation failed: $e');
@@ -44,10 +45,15 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
 void AlertDialogue(BuildContext context, String alertText) {
   AlertDialog alert = AlertDialog(
     title: Text("Error"),
-    content: Text(alertText),
-    // actions: [
-    //   okButton,
-    // ],
+    content: Column(children: [
+      Text(alertText),
+      const SizedBox(height: 10),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'))
+    ],),
   );
   showDialog(
     context: context,
@@ -57,29 +63,29 @@ void AlertDialogue(BuildContext context, String alertText) {
   );
 }
 
-  void saveRequestDialogue(BuildContext context, Service service) {
-    AlertDialog alert = AlertDialog(
-      title: Text("Successfully Saved Service"),
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-        child: Column(
-          children: [
-            Text('SERVICE NAME: ${service.title}'),
-            Text('SERVICE CONTENT: ${service.content}'),
-            Text('SERVICE MAX PRICE: ${service.priceRange?.max}'),
-            Text('SERVICE MIN PRICE: ${service.priceRange?.min}'),
-            Text('SERVICE AVERAGE PRICE: ${service.priceRange?.price}'),
-          ],
-        ),
+void saveRequestDialogue(
+    BuildContext context, Request request, String sucessText) {
+  AlertDialog alert = AlertDialog(
+    title: Text(sucessText),
+    content: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      child: Column(
+        children: [
+          Text('Request Title: ${request.title}'),
+          const SizedBox(height: 10),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'))
+        ],
       ),
-      // actions: [
-      //   okButton,
-      // ],
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+    ),
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
