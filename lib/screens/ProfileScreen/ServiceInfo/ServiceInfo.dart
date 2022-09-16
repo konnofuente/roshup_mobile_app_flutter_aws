@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../blocs/bloc_export.dart';
 import '../../../widgets/ListWidget.dart';
 

@@ -19,8 +19,6 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:roshup_mobile_app_flutter_aws/models/Image.dart';
-
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
@@ -37,7 +35,7 @@ class User extends Model {
   final String? _email;
   final String? _phoneNumber;
   final TemporalDateTime? _birthdate;
-  final Image? _picture;
+  final RosImage? _picture;
   final List<Role>? _role;
   final List<PaymentType>? _paymentType;
   final RosProvider? _rosProvider;
@@ -95,7 +93,7 @@ class User extends Model {
     return _birthdate;
   }
   
-  Image? get picture {
+  RosImage? get picture {
     return _picture;
   }
   
@@ -141,7 +139,7 @@ class User extends Model {
   
   const User._internal({required this.id, firstName, lastName, required email, required phoneNumber, birthdate, picture, role, paymentType, rosProvider, rating, suggestions, roshubPoints, messages, requestSubmiteds, createdAt, updatedAt}): _firstName = firstName, _lastName = lastName, _email = email, _phoneNumber = phoneNumber, _birthdate = birthdate, _picture = picture, _role = role, _paymentType = paymentType, _rosProvider = rosProvider, _rating = rating, _suggestions = suggestions, _roshubPoints = roshubPoints, _messages = messages, _requestSubmiteds = requestSubmiteds, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory User({String? id, String? firstName, String? lastName, required String email, required String phoneNumber, TemporalDateTime? birthdate, Image? picture, List<Role>? role, List<PaymentType>? paymentType, RosProvider? rosProvider, double? rating, List<Suggestion>? suggestions, List<RoshubPoint>? roshubPoints, List<Message>? messages, List<Request>? requestSubmiteds}) {
+  factory User({String? id, String? firstName, String? lastName, required String email, required String phoneNumber, TemporalDateTime? birthdate, RosImage? picture, List<Role>? role, List<PaymentType>? paymentType, RosProvider? rosProvider, double? rating, List<Suggestion>? suggestions, List<RoshubPoint>? roshubPoints, List<Message>? messages, List<Request>? requestSubmiteds}) {
     return User._internal(
       id: id == null ? UUID.getUUID() : id,
       firstName: firstName,
@@ -213,7 +211,7 @@ class User extends Model {
     return buffer.toString();
   }
   
-  User copyWith({String? id, String? firstName, String? lastName, String? email, String? phoneNumber, TemporalDateTime? birthdate, Image? picture, List<Role>? role, List<PaymentType>? paymentType, RosProvider? rosProvider, double? rating, List<Suggestion>? suggestions, List<RoshubPoint>? roshubPoints, List<Message>? messages, List<Request>? requestSubmiteds}) {
+  User copyWith({String? id, String? firstName, String? lastName, String? email, String? phoneNumber, TemporalDateTime? birthdate, RosImage? picture, List<Role>? role, List<PaymentType>? paymentType, RosProvider? rosProvider, double? rating, List<Suggestion>? suggestions, List<RoshubPoint>? roshubPoints, List<Message>? messages, List<Request>? requestSubmiteds}) {
     return User._internal(
       id: id ?? this.id,
       firstName: firstName ?? this.firstName,
@@ -240,7 +238,7 @@ class User extends Model {
       _phoneNumber = json['phoneNumber'],
       _birthdate = json['birthdate'] != null ? TemporalDateTime.fromString(json['birthdate']) : null,
       _picture = json['picture']?['serializedData'] != null
-        ? Image.fromJson(new Map<String, dynamic>.from(json['picture']['serializedData']))
+        ? RosImage.fromJson(new Map<String, dynamic>.from(json['picture']['serializedData']))
         : null,
       _role = json['role'] is List
         ? (json['role'] as List)
@@ -359,7 +357,7 @@ class User extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
       fieldName: 'picture',
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.embedded, ofCustomTypeName: 'Image')
+      ofType: ModelFieldType(ModelFieldTypeEnum.embedded, ofCustomTypeName: 'RosImage')
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(

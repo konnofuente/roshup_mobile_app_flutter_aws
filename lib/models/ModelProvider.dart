@@ -27,16 +27,16 @@ import 'RoshubPointService.dart';
 import 'Service.dart';
 import 'User.dart';
 import 'Comment.dart';
-import 'File.dart';
-import 'Image.dart';
 import 'Location.dart';
 import 'Message.dart';
 import 'PriceRange.dart';
+import 'RosFile.dart';
+import 'RosForm.dart';
+import 'RosImage.dart';
 import 'RosProvider.dart';
 import 'Suggestion.dart';
 
 export 'Comment.dart';
-export 'File.dart';
 export 'Location.dart';
 export 'Message.dart';
 export 'MessageStatus.dart';
@@ -47,6 +47,9 @@ export 'PriceRange.dart';
 export 'Request.dart';
 export 'RequestStatus.dart';
 export 'Role.dart';
+export 'RosFile.dart';
+export 'RosForm.dart';
+export 'RosImage.dart';
 export 'RosProvider.dart';
 export 'RosProviderStatus.dart';
 export 'RoshubPoint.dart';
@@ -58,12 +61,12 @@ export 'User.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "ce073da6805b74746a515b3f56933fa1";
+  String version = "063df0e5c15aa1f53c4ee17e9f3f92ef";
   @override
   List<ModelSchema> modelSchemas = [Payment.schema, Request.schema, RoshubPoint.schema, RoshubPointService.schema, Service.schema, User.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
-  List<ModelSchema> customTypeSchemas = [Comment.schema, File.schema, Image.schema, Location.schema, Message.schema, PriceRange.schema, RosProvider.schema, Suggestion.schema];
+  List<ModelSchema> customTypeSchemas = [Comment.schema, Location.schema, Message.schema, PriceRange.schema, RosFile.schema, RosForm.schema, RosImage.schema, RosProvider.schema, Suggestion.schema];
 
   static ModelProvider get instance => _instance;
   

@@ -9,7 +9,7 @@ type User @model @auth(rules: [{allow: owner}]) {
   email: AWSEmail!
   phoneNumber: AWSPhone!
   birthdate: AWSDateTime
-  picture: Image
+  picture: RosImage
   role: [Role]
   paymentType: [PaymentType]
   rosProvider: RosProvider
@@ -34,24 +34,26 @@ type Request @model @auth(rules: [{allow: owner}]) {
   # userId: ID 
   rosProviderId: ID 
   userId: ID @index(name: "byUser", queryField: "requestByUser")
-  user: User @belongsTo(fields: ["userId"])
   # rosProviderId: ID @index(name: "byRosProvider", queryField: "requestByRosProvider")
+  user: User @belongsTo(fields: ["userId"])
   # rosProvider: User @belongsTo(fields: ["rosProviderId"])
+
   serviceId: ID @index(name: "byService", queryField: "requestByService")
   service: Service @belongsTo(fields: ["serviceId"])
   paymentId: ID @index(name: "byPayment", queryField: "requestByPayment")
   payment: Payment @belongsTo(fields: ["paymentId"])
-  assets: [File]
-  outputs: [File]
+  assets: [RosFile]
+  outputs: [RosFile]
   messages: [Message]!
 }
 
-type Service @model @auth(rules: [{allow: public, operations: [read]}, {allow: owner, operations: [read, update, create]}]) {
+type Service @model @auth(rules: [{allow: public, operations: [read]}, {allow: owner, operations: [read, update, create,delete]}]) {
   id: ID! @primaryKey
   title: String!
   content: String
-  priceRange: PriceRange
-  image: Image
+  priceRanges: [PriceRange]
+  image: RosImage
+  forms:[RosForm]
   roshubPoints: [RoshubPoint] @manyToMany(relationName: "RoshubPointService")
   requests: [Request] @hasMany(indexName: "byService")
 }
@@ -78,6 +80,11 @@ type Payment @model @auth(rules: [{allow: owner}]) {
   status: PaymentStatus
 }
 
+type RosForm{
+  name:String
+  type:String 
+  accepted_values:[String]
+}
 
 type RosProvider {
   services: [String!]
@@ -92,7 +99,7 @@ type Location {
   addresse: String!
 }
 
-type Image {
+type RosImage {
   s3Key: String!
   type: String!
   size: Float
@@ -109,7 +116,7 @@ type PriceRange {
   price: Float
 }
 
-type File {
+type RosFile {
   s3Key: String!
   type: String
   size: Float
@@ -120,7 +127,7 @@ type Message {
   id: ID!
   userId: ID!
   content: String
-  image: Image
+  Rosimage: RosImage
   createdAt: AWSDateTime
   status: MessageStatus
 }

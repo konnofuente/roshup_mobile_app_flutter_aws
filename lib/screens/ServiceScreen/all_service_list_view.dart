@@ -148,7 +148,7 @@ class SERVICEView extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 16, left: 16, right: 16),
                                             child: Text(
-                                              service!.title,
+                                              service!.title==null? 'title':service!.title,
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -187,8 +187,8 @@ class SERVICEView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        service!.priceRange?.price.toString() == null?
-                                                        '00000 ':service!.priceRange!.price.toString(),
+                                                        service!.priceRanges![0].price.toString() == null?
+                                                        '00000 ':service!.priceRanges![0].price.toString(),
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -246,7 +246,7 @@ class SERVICEView extends StatelessWidget {
                             child: AspectRatio(
                                 aspectRatio: 1.28,
                                 child: Image.asset("assets/design_course/interFace1.png")),
-                                // child: Image.asset(service!.image!.s3Key)),
+                                
                           ),
                         ),
                       ),

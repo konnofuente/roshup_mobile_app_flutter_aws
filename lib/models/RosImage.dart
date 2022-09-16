@@ -23,9 +23,9 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Image type in your schema. */
+/** This is an auto generated class representing the RosImage type in your schema. */
 @immutable
-class Image {
+class RosImage {
   final String? _s3Key;
   final String? _type;
   final double? _size;
@@ -60,10 +60,10 @@ class Image {
     return _size;
   }
   
-  const Image._internal({required s3Key, required type, size}): _s3Key = s3Key, _type = type, _size = size;
+  const RosImage._internal({required s3Key, required type, size}): _s3Key = s3Key, _type = type, _size = size;
   
-  factory Image({required String s3Key, required String type, double? size}) {
-    return Image._internal(
+  factory RosImage({required String s3Key, required String type, double? size}) {
+    return RosImage._internal(
       s3Key: s3Key,
       type: type,
       size: size);
@@ -76,7 +76,7 @@ class Image {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Image &&
+    return other is RosImage &&
       _s3Key == other._s3Key &&
       _type == other._type &&
       _size == other._size;
@@ -89,7 +89,7 @@ class Image {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("Image {");
+    buffer.write("RosImage {");
     buffer.write("s3Key=" + "$_s3Key" + ", ");
     buffer.write("type=" + "$_type" + ", ");
     buffer.write("size=" + (_size != null ? _size!.toString() : "null"));
@@ -98,14 +98,14 @@ class Image {
     return buffer.toString();
   }
   
-  Image copyWith({String? s3Key, String? type, double? size}) {
-    return Image._internal(
+  RosImage copyWith({String? s3Key, String? type, double? size}) {
+    return RosImage._internal(
       s3Key: s3Key ?? this.s3Key,
       type: type ?? this.type,
       size: size ?? this.size);
   }
   
-  Image.fromJson(Map<String, dynamic> json)  
+  RosImage.fromJson(Map<String, dynamic> json)  
     : _s3Key = json['s3Key'],
       _type = json['type'],
       _size = (json['size'] as num?)?.toDouble();
@@ -115,8 +115,8 @@ class Image {
   };
 
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Image";
-    modelSchemaDefinition.pluralName = "Images";
+    modelSchemaDefinition.name = "RosImage";
+    modelSchemaDefinition.pluralName = "RosImages";
     
     modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
       fieldName: 's3Key',

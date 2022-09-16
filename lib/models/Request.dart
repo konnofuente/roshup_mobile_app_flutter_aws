@@ -39,8 +39,8 @@ class Request extends Model {
   final User? _user;
   final Service? _service;
   final Payment? _payment;
-  final List<File>? _assets;
-  final List<File>? _outputs;
+  final List<RosFile>? _assets;
+  final List<RosFile>? _outputs;
   final List<Message>? _messages;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
@@ -107,11 +107,11 @@ class Request extends Model {
     return _payment;
   }
   
-  List<File>? get assets {
+  List<RosFile>? get assets {
     return _assets;
   }
   
-  List<File>? get outputs {
+  List<RosFile>? get outputs {
     return _outputs;
   }
   
@@ -138,7 +138,7 @@ class Request extends Model {
   
   const Request._internal({required this.id, parent, subRequests, required title, content, required status, rosProviderId, user, service, payment, assets, outputs, required messages, createdAt, updatedAt}): _parent = parent, _subRequests = subRequests, _title = title, _content = content, _status = status, _rosProviderId = rosProviderId, _user = user, _service = service, _payment = payment, _assets = assets, _outputs = outputs, _messages = messages, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Request({String? id, Request? parent, List<Request>? subRequests, required String title, String? content, required RequestStatus status, String? rosProviderId, User? user, Service? service, Payment? payment, List<File>? assets, List<File>? outputs, required List<Message> messages}) {
+  factory Request({String? id, Request? parent, List<Request>? subRequests, required String title, String? content, required RequestStatus status, String? rosProviderId, User? user, Service? service, Payment? payment, List<RosFile>? assets, List<RosFile>? outputs, required List<Message> messages}) {
     return Request._internal(
       id: id == null ? UUID.getUUID() : id,
       parent: parent,
@@ -150,8 +150,8 @@ class Request extends Model {
       user: user,
       service: service,
       payment: payment,
-      assets: assets != null ? List<File>.unmodifiable(assets) : assets,
-      outputs: outputs != null ? List<File>.unmodifiable(outputs) : outputs,
+      assets: assets != null ? List<RosFile>.unmodifiable(assets) : assets,
+      outputs: outputs != null ? List<RosFile>.unmodifiable(outputs) : outputs,
       messages: messages != null ? List<Message>.unmodifiable(messages) : messages);
   }
   
@@ -205,7 +205,7 @@ class Request extends Model {
     return buffer.toString();
   }
   
-  Request copyWith({String? id, Request? parent, List<Request>? subRequests, String? title, String? content, RequestStatus? status, String? rosProviderId, User? user, Service? service, Payment? payment, List<File>? assets, List<File>? outputs, List<Message>? messages}) {
+  Request copyWith({String? id, Request? parent, List<Request>? subRequests, String? title, String? content, RequestStatus? status, String? rosProviderId, User? user, Service? service, Payment? payment, List<RosFile>? assets, List<RosFile>? outputs, List<Message>? messages}) {
     return Request._internal(
       id: id ?? this.id,
       parent: parent ?? this.parent,
@@ -249,13 +249,13 @@ class Request extends Model {
       _assets = json['assets'] is List
         ? (json['assets'] as List)
           .where((e) => e != null)
-          .map((e) => File.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => RosFile.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
       _outputs = json['outputs'] is List
         ? (json['outputs'] as List)
           .where((e) => e != null)
-          .map((e) => File.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => RosFile.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
       _messages = json['messages'] is List
@@ -268,7 +268,7 @@ class Request extends Model {
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'parent': _parent?.toJson(), 'subRequests': _subRequests?.map((Request? e) => e?.toJson()).toList(), 'title': _title, 'content': _content, 'status': enumToString(_status), 'rosProviderId': _rosProviderId, 'user': _user?.toJson(), 'service': _service?.toJson(), 'payment': _payment?.toJson(), 'assets': _assets?.map((File? e) => e?.toJson()).toList(), 'outputs': _outputs?.map((File? e) => e?.toJson()).toList(), 'messages': _messages?.map((Message? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'parent': _parent?.toJson(), 'subRequests': _subRequests?.map((Request? e) => e?.toJson()).toList(), 'title': _title, 'content': _content, 'status': enumToString(_status), 'rosProviderId': _rosProviderId, 'user': _user?.toJson(), 'service': _service?.toJson(), 'payment': _payment?.toJson(), 'assets': _assets?.map((RosFile? e) => e?.toJson()).toList(), 'outputs': _outputs?.map((RosFile? e) => e?.toJson()).toList(), 'messages': _messages?.map((Message? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
@@ -377,14 +377,14 @@ class Request extends Model {
       fieldName: 'assets',
       isRequired: false,
       isArray: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection, ofCustomTypeName: 'File')
+      ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection, ofCustomTypeName: 'RosFile')
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
       fieldName: 'outputs',
       isRequired: false,
       isArray: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection, ofCustomTypeName: 'File')
+      ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection, ofCustomTypeName: 'RosFile')
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.embedded(

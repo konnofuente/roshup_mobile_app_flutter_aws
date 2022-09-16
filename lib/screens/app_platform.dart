@@ -65,7 +65,7 @@ class _AppPlatformState extends State<AppPlatform> {
       } else {
         print('Not enought parameters fetch to create local user');
       }
-      print(user);
+      // print(user);
     } on AuthException catch (e) {
       print(e.message);
     }
@@ -84,7 +84,7 @@ class _AppPlatformState extends State<AppPlatform> {
       Provider.of<ServicesBloc>(context, listen: false)
         ..emit(ServicesState(allService: Services));
     } on ApiException catch (e) {
-      print('Query failed: $e');
+      print('Could not retrieve Service from api!!!!!!!!!!11111 $e');
     }
   }
 

@@ -5,10 +5,8 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../models/Service.dart';
 import 'services_event.dart';
-
 part 'services_state.dart';
 
 class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
@@ -30,7 +28,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
       final newService = Service(
         title: event.service.title,
         content: event.service.content,
-        priceRange: event.service.priceRange,
+        priceRanges: event.service.priceRanges,
       );
 
       final request = ModelMutations.create(newService);
@@ -112,9 +110,6 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
           children: [
             Text('SERVICE NAME: ${service.title}'),
             Text('SERVICE CONTENT: ${service.content}'),
-            Text('SERVICE MAX PRICE: ${service.priceRange?.max}'),
-            Text('SERVICE MIN PRICE: ${service.priceRange?.min}'),
-            Text('SERVICE AVERAGE PRICE: ${service.priceRange?.price}'),
           ],
         ),
       ),

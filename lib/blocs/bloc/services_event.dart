@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:roshup_mobile_app_flutter_aws/models/ModelProvider.dart';
-import '../../models/Service.dart';
 
 abstract class ServicesEvent extends Equatable {
   const ServicesEvent();

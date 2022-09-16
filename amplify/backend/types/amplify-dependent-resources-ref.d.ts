@@ -17,5 +17,11 @@ export type AmplifyDependentResourcesAttributes = {
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
+    },
+    "storage": {
+        "s3Roshub": {
+            "BucketName": "string",
+            "Region": "string"
+        }
     }
 }

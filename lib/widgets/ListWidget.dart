@@ -3,6 +3,7 @@ import 'package:roshup_mobile_app_flutter_aws/screens/ProfileScreen/ServiceInfo/
 
 import '../models/Service.dart';
 
+
 class ListWidget extends StatelessWidget {
   final Service? service;
   const ListWidget({Key? key, required this.service}) : super(key: key);
@@ -41,7 +42,7 @@ class ListWidget extends StatelessWidget {
         subtitle: Row(
           children: <Widget>[
             Text("Price:", style: TextStyle(color: Color.fromARGB(255, 247, 247, 95),fontWeight:FontWeight.w500)),
-            Text(service!.priceRange!.price.toString(), style: TextStyle(color: Colors.white))
+            Text(service!.priceRanges![0].price.toString(), style: TextStyle(color: Colors.white))
           ],
         ),
         trailing:

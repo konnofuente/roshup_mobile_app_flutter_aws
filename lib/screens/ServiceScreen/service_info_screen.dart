@@ -118,7 +118,7 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  '${widget.service.priceRange!.price.toString()} XAF',
+                                  '${widget.service.priceRanges![0].price.toString()} XAF',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -127,27 +127,6 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                                     color: DesignCourseAppTheme.nearlyBlue,
                                   ),
                                 ),
-                                // Container(
-                                //   child: Row(
-                                //     children: <Widget>[
-                                //       Text(
-                                //         '4.3',
-                                //         textAlign: TextAlign.left,
-                                //         style: TextStyle(
-                                //           fontWeight: FontWeight.w200,
-                                //           fontSize: 22,
-                                //           letterSpacing: 0.27,
-                                //           color: DesignCourseAppTheme.grey,
-                                //         ),
-                                //       ),
-                                //       Icon(
-                                //         Icons.star,
-                                //         color: DesignCourseAppTheme.nearlyBlue,
-                                //         size: 24,
-                                //       ),
-                                //     ],
-                                //   ),
-                                // )
                               ],
                             ),
                           ),
@@ -158,12 +137,12 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                               padding: const EdgeInsets.all(8),
                               child: Row(
                                 children: <Widget>[
-                                  getTimeBoxUI('MIN',
-                                      '${widget.service.priceRange!.min.toString()}'),
-                                  getTimeBoxUI('AVERAGE',
-                                      '${widget.service.priceRange!.price.toString()}'),
-                                  getTimeBoxUI('MAX',
-                                      '${widget.service.priceRange!.max.toString()}'),
+                                  getTimeBoxUI('Min Qty',
+                                      '${widget.service.priceRanges![0].min.toString()}'),
+                                  getTimeBoxUI('Medium Qty',
+                                      '${widget.service.priceRanges![0].price.toString()}'),
+                                  getTimeBoxUI('Max Quentity',
+                                      '${widget.service.priceRanges![0].max.toString()}'),
                                 ],
                               ),
                             ),
@@ -200,26 +179,6 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Container(
-                                    width: 48,
-                                    height: 48,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: DesignCourseAppTheme.nearlyWhite,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(16.0),
-                                        ),
-                                        border: Border.all(
-                                            color: DesignCourseAppTheme.grey
-                                                .withOpacity(0.2)),
-                                      ),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: DesignCourseAppTheme.nearlyBlue,
-                                        size: 28,
-                                      ),
-                                    ),
-                                  ),
                                   const SizedBox(
                                     width: 16,
                                   ),
@@ -359,7 +318,7 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 14,
+                  fontSize: 12,
                   letterSpacing: 0.27,
                   color: DesignCourseAppTheme.nearlyBlue,
                 ),

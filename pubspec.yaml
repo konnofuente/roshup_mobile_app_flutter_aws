@@ -23,6 +23,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.0
+  flutter_colorpicker: ^1.0.3
   flutter_launcher_icons: ^0.10.0
   flutter_multi_formatter: ^2.7.1
   flutter_rating_bar: ^4.0.1
@@ -30,6 +31,7 @@ dependencies:
   image_picker: ^0.8.5+3
   intl: ^0.17.0
   intl_phone_field: ^3.1.0
+  open_file: ^2.1.1
   path_provider: ^2.0.11
   provider: ^6.0.3
   settings_ui: ^2.0.2

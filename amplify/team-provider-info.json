@@ -10,6 +10,30 @@
       "StackName": "amplify-roshub-staging-183034",
       "StackId": "arn:aws:cloudformation:ca-central-1:965106669919:stack/amplify-roshub-staging-183034/2c966470-256d-11ed-b97d-062f0585289c",
       "AmplifyAppId": "d23drvakyn48sy"
+    },
+    "categories": {
+      "auth": {
+        "Roshub": {},
+        "true": {}
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-roshub-dev-114827-authRole",
+      "UnauthRoleArn": "arn:aws:iam::965106669919:role/amplify-roshub-dev-114827-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::965106669919:role/amplify-roshub-dev-114827-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-roshub-dev-114827-deployment",
+      "UnauthRoleName": "amplify-roshub-dev-114827-unauthRole",
+      "StackName": "amplify-roshub-dev-114827",
+      "StackId": "arn:aws:cloudformation:ca-central-1:965106669919:stack/amplify-roshub-dev-114827/9db17f10-2e9a-11ed-a608-0e7c67ccc4c4",
+      "AmplifyAppId": "d23drvakyn48sy"
+    },
+    "categories": {
+      "auth": {
+        "Roshub": {}
+      }
     }
   }
 }

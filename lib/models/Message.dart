@@ -19,8 +19,6 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:roshup_mobile_app_flutter_aws/models/Image.dart';
-
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -32,7 +30,7 @@ class Message {
   final String id;
   final String? _userId;
   final String? _content;
-  final Image? _image;
+  final RosImage? _Rosimage;
   final TemporalDateTime? _createdAt;
   final MessageStatus? _status;
 
@@ -53,8 +51,8 @@ class Message {
     return _content;
   }
   
-  Image? get image {
-    return _image;
+  RosImage? get Rosimage {
+    return _Rosimage;
   }
   
   TemporalDateTime? get createdAt {
@@ -65,14 +63,14 @@ class Message {
     return _status;
   }
   
-  const Message._internal({required this.id, required userId, content, image, createdAt, status}): _userId = userId, _content = content, _image = image, _createdAt = createdAt, _status = status;
+  const Message._internal({required this.id, required userId, content, Rosimage, createdAt, status}): _userId = userId, _content = content, _Rosimage = Rosimage, _createdAt = createdAt, _status = status;
   
-  factory Message({String? id, required String userId, String? content, Image? image, TemporalDateTime? createdAt, MessageStatus? status}) {
+  factory Message({String? id, required String userId, String? content, RosImage? Rosimage, TemporalDateTime? createdAt, MessageStatus? status}) {
     return Message._internal(
       id: id == null ? UUID.getUUID() : id,
       userId: userId,
       content: content,
-      image: image,
+      Rosimage: Rosimage,
       createdAt: createdAt,
       status: status);
   }
@@ -88,7 +86,7 @@ class Message {
       id == other.id &&
       _userId == other._userId &&
       _content == other._content &&
-      _image == other._image &&
+      _Rosimage == other._Rosimage &&
       _createdAt == other._createdAt &&
       _status == other._status;
   }
@@ -104,7 +102,7 @@ class Message {
     buffer.write("id=" + "$id" + ", ");
     buffer.write("userId=" + "$_userId" + ", ");
     buffer.write("content=" + "$_content" + ", ");
-    buffer.write("image=" + (_image != null ? _image!.toString() : "null") + ", ");
+    buffer.write("Rosimage=" + (_Rosimage != null ? _Rosimage!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("status=" + (_status != null ? enumToString(_status)! : "null"));
     buffer.write("}");
@@ -112,12 +110,12 @@ class Message {
     return buffer.toString();
   }
   
-  Message copyWith({String? id, String? userId, String? content, Image? image, TemporalDateTime? createdAt, MessageStatus? status}) {
+  Message copyWith({String? id, String? userId, String? content, RosImage? Rosimage, TemporalDateTime? createdAt, MessageStatus? status}) {
     return Message._internal(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       content: content ?? this.content,
-      image: image ?? this.image,
+      Rosimage: Rosimage ?? this.Rosimage,
       createdAt: createdAt ?? this.createdAt,
       status: status ?? this.status);
   }
@@ -126,14 +124,14 @@ class Message {
     : id = json['id'],
       _userId = json['userId'],
       _content = json['content'],
-      _image = json['image']?['serializedData'] != null
-        ? Image.fromJson(new Map<String, dynamic>.from(json['image']['serializedData']))
+      _Rosimage = json['Rosimage']?['serializedData'] != null
+        ? RosImage.fromJson(new Map<String, dynamic>.from(json['Rosimage']['serializedData']))
         : null,
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _status = enumFromString<MessageStatus>(json['status'], MessageStatus.values);
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'userId': _userId, 'content': _content, 'image': _image?.toJson(), 'createdAt': _createdAt?.format(), 'status': enumToString(_status)
+    'id': id, 'userId': _userId, 'content': _content, 'Rosimage': _Rosimage?.toJson(), 'createdAt': _createdAt?.format(), 'status': enumToString(_status)
   };
 
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -159,9 +157,9 @@ class Message {
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
-      fieldName: 'image',
+      fieldName: 'Rosimage',
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.embedded, ofCustomTypeName: 'Image')
+      ofType: ModelFieldType(ModelFieldTypeEnum.embedded, ofCustomTypeName: 'RosImage')
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
