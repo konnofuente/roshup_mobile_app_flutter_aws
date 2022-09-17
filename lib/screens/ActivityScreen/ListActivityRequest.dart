@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/ActivityScreen/activity_datails.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/ProfileScreen/ServiceInfo/service_edit.dart';
 
-import '../models/Service.dart';
+import '../../models/Request.dart';
 
 
-class ListWidget extends StatelessWidget {
-  final Service? service;
-  const ListWidget({Key? key, required this.service}) : super(key: key);
+
+class ListActivityScreen extends StatelessWidget {
+  final Request request;
+  const ListActivityScreen({Key? key, required this.request}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -21,7 +24,7 @@ class ListWidget extends StatelessWidget {
           child: ListTile(
           onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ServiceEdit(service: service!,),
+                      builder: (context) => ActivityDetail(),
                     ),),
         contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         leading: Container(
@@ -34,17 +37,15 @@ class ListWidget extends StatelessWidget {
             ),
         ),
         title: Text(
-          service!.title,
+          request.title,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-        subtitle: Row(
-          children: <Widget>[
-            Text("Price:", style: TextStyle(color: Color.fromARGB(255, 247, 247, 95),fontWeight:FontWeight.w500)),
-            Text(service!.priceRanges![0].price.toString(), style: TextStyle(color: Colors.white))
-          ],
-        ),
+        // subtitle: Row(
+        //   children: <Widget>[
+        //     Text("Price:", style: TextStyle(color: Color.fromARGB(255, 247, 247, 95),fontWeight:FontWeight.w500)),
+        //     Text(service!.priceRanges![0].price.toString(), style: TextStyle(color: Colors.white))
+        //   ],
+        // ),
         trailing:
             Column(
               children: [

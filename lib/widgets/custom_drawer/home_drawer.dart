@@ -42,22 +42,17 @@ class _HomeDrawerState extends State<HomeDrawer> {
         index: DrawerIndex.Help,
         labelName: 'Activity',
         isAssetsImage: true,
-        imageName: 'assets/images/supportIcon.png',
+        icon: const Icon(Icons.supervisor_account_rounded),
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
         labelName: 'Chat',
-        icon: const Icon(Icons.help),
+        icon: const Icon(Icons.chat),
       ),
       DrawerList(
         index: DrawerIndex.Invite,
         labelName: 'Profile',
-        icon: const Icon(Icons.group),
-      ),
-      DrawerList(
-        index: DrawerIndex.About,
-        labelName: 'Feed Back',
-        icon: const Icon(Icons.info),
+        icon: const Icon(Icons.settings),
       ),
     ];
   }
@@ -211,17 +206,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Container(
                     width: 6.0,
                     height: 46.0,
-                    // decoration: BoxDecoration(
-                    //   color: widget.screenIndex == listData.index
-                    //       ? Colors.blue
-                    //       : Colors.transparent,
-                    //   borderRadius: new BorderRadius.only(
-                    //     topLeft: Radius.circular(0),
-                    //     topRight: Radius.circular(16),
-                    //     bottomLeft: Radius.circular(0),
-                    //     bottomRight: Radius.circular(16),
-                    //   ),
-                    // ),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(4.0),

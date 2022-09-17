@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import '../screens/home/app_theme.dart';
 
-AppBar buildAppBar(BuildContext context) {
+
+AppBar buildAppBar(String Title) {
   return AppBar(
-    iconTheme: IconThemeData(
-        color: Colors
-            .black), // set backbutton color here which will reflect in all screens.
-    leading: BackButton(),
-    backgroundColor: Colors.transparent,
-    elevation: 0,
+    backgroundColor: AppTheme.nearlyWhite,
+            elevation: 0,
+            title: Text(
+                  Title,
+                  style: TextStyle(
+                    fontSize: 22,
+                    color:AppTheme.darkText ,
+                    // color: AppTheme.darkText ,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
   );
 }

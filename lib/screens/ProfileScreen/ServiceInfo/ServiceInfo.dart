@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../blocs/bloc_export.dart';
-import '../../../widgets/ListWidget.dart';
+import '../../../widgets/ListServiceWidget.dart';
 
 class ServiceInfo extends StatefulWidget {
   const ServiceInfo({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _ServiceInfoState extends State<ServiceInfo> {
           body: ListView.builder(
               itemCount:state.allService.length,
               itemBuilder: (context, index) {
-                return ListWidget(service: state.allService[index]);
+                return ListServiceWidget(service: state.allService[index]);
               }),
         );
       },

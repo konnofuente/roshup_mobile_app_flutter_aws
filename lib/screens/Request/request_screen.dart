@@ -31,6 +31,7 @@ class RequestScreenState extends State<RequestScreen> {
   String fileType = "pdf";
   String paperformat = 'A4';
   String color = 'white';
+  String FinalInstruction = " ";
   FilePickerResult? result;
   PlatformFile? file;
   List<File> files = [];
@@ -45,13 +46,12 @@ class RequestScreenState extends State<RequestScreen> {
   bool isColorPicker = false;
   // create some values
   Color pickerColor = Color(0xff443a49);
-  Color primaryColor = Color.fromARGB(255, 123, 186, 250);
-  Color secondaryColor = Color.fromARGB(255, 221, 194, 152);
-  Color thirdColor = Color.fromARGB(255, 249, 191, 191);
+  Color primaryColor = Color.fromARGB(255, 255, 255, 255);
+  Color secondaryColor = Color.fromARGB(255, 255, 255, 255);
+  Color thirdColor = Color.fromARGB(255, 255, 255, 255);
 
   @override
   void initState() {
-    // getFileType();
     getAllInput();
     super.initState();
   }
@@ -95,11 +95,28 @@ class RequestScreenState extends State<RequestScreen> {
     });
   }
 
+  void requestInstruction() {
+    String FormatInst = '';
+    String ColorInst = '';
+
+    paperFormats.isEmpty
+        ? null
+        : FormatInst = "\nThe paper format to be use is : $paperformat";
+    isColorPicker
+        ? ColorInst =
+            "The Variose Color Theme in this request are \n Primary Color:$primaryColor \n Secondary Color:$secondaryColor \n Third Color:$thirdColor"
+        : null;
+
+    FinalInstruction = "$contentController $FormatInst $ColorInst";
+    print(FinalInstruction);
+  }
+
   void sendRequest(BuildContext context, User user, Service? service,
       String title, String content) {
+    requestInstruction();
     final request = Request(
       title: title,
-      content: content,
+      content: FinalInstruction,
       status: RequestStatus.PENDING,
       user: user,
       service: service,
@@ -150,11 +167,11 @@ class RequestScreenState extends State<RequestScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       isTitle
-                                          ? getTextFormFieldTitle()
+                                          ? getTextFormField("Title")
                                           : Container(),
                                       SizedBox(height: 10),
                                       isContent
-                                          ? getTextFormFieldContent()
+                                          ? getTextFormField("Content")
                                           : Container(),
                                       SizedBox(height: 10),
                                     ]),
@@ -164,15 +181,31 @@ class RequestScreenState extends State<RequestScreen> {
                               paperFormats.isEmpty
                                   ? Container()
                                   : getFormatDropdownButton(paperFormats),
-                              // getColorValues(),
-                              isColorPicker
-                                  ? getColorValues()
-                                  : Container(),
+                              isColorPicker ? getColorValues() : Container(),
                             ],
                           ),
                         ),
                         SizedBox(height: 20),
-                        RequestButton(),
+                        ElevatedButton(
+                          child: const Text(
+                            'REQUEST SERVICE',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              letterSpacing: 0.0,
+                              color: DesignCourseAppTheme.nearlyWhite,
+                            ),
+                          ),
+                          onPressed: () {
+                            requestInstruction();                           
+                            User user = Userstate.allUsers[0];
+                            if (_formKey.currentState!.validate()) {
+                              sendRequest(context, user, widget.service,
+                                  titleController, contentController);
+                            }
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -198,29 +231,6 @@ class RequestScreenState extends State<RequestScreen> {
       padding: const EdgeInsets.only(bottom: 15.0),
       child: Text(text,
           style: TextStyle(fontSize: size, fontWeight: FontWeight.bold)),
-    );
-  }
-
-  ElevatedButton RequestButton() {
-    return ElevatedButton(
-      child: const Text(
-        'REQUEST SERVICE',
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 18,
-          letterSpacing: 0.0,
-          color: DesignCourseAppTheme.nearlyWhite,
-        ),
-      ),
-      onPressed: () {
-        print(titleController);
-        // User user = Userstate.allUsers[0];
-        // if (_formKey.currentState!.validate()) {
-        //   sendRequest(context, user, widget.service,
-        //       titleController, contentController);
-        // }
-      },
     );
   }
 
@@ -262,9 +272,6 @@ class RequestScreenState extends State<RequestScreen> {
     );
   }
 
-
-
-
   Widget getFormatDropdownButton(List<String> item) {
     return Column(
       children: [
@@ -285,162 +292,179 @@ class RequestScreenState extends State<RequestScreen> {
     );
   }
 
-
-
-  void showColorPicker(Color currentcolor,String ColorName) {
+  void showColorPicker(Color currentcolor, String ColorName) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Pick a color"),
-            content: SingleChildScrollView(
-              child: ColorPicker(
-                pickerColor: currentcolor,
-                paletteType: PaletteType.hueWheel,
-                onColorChanged: (pickedcolor) {
-                  pickerColor = pickedcolor;
-                },
+              title: Text("Pick a color"),
+              content: SingleChildScrollView(
+                child: ColorPicker(
+                  pickerColor: currentcolor,
+                  paletteType: PaletteType.hueWheel,
+                  onColorChanged: (pickedcolor) {
+                    pickerColor = pickedcolor;
+                  },
+                ),
               ),
-            ),
-            actions: <Widget>[
+              actions: <Widget>[
                 ElevatedButton(
                   child: const Text('Got it'),
                   onPressed: () {
-                    switch(ColorName) { 
-                        case "primaryColor": { 
-                             setState(() => primaryColor = pickerColor);
-                        } 
-                        break; 
-                        
-                        case "secondaryColor": { 
-                             setState(() => secondaryColor = pickerColor);
-                        } 
-                        break; 
-                            
-                        case "thirdColor": { 
-                            setState(() => thirdColor = pickerColor);  
+                    switch (ColorName) {
+                      case "primaryColor":
+                        {
+                          setState(() => primaryColor = pickerColor);
                         }
-                        break; 
-                      } 
+                        break;
+
+                      case "secondaryColor":
+                        {
+                          setState(() => secondaryColor = pickerColor);
+                        }
+                        break;
+
+                      case "thirdColor":
+                        {
+                          setState(() => thirdColor = pickerColor);
+                        }
+                        break;
+                    }
                     Navigator.of(context).pop();
                   },
                 ),
-              ]
-          );
+              ]);
         });
   }
 
   Widget getColorValues() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 16),
-          child: Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: primaryColor),
-            width: 80,
-            height: 80,
-            child: Center(
-              child: InkWell(
-                onTap: () {
-                  showColorPicker(primaryColor,"primaryColor");
-                },
+        displayHeading("Click Circle to chose color theme", 15),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: primaryColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 5.0,
+                        spreadRadius: 1.0,
+                      ),
+                    ]),
+                width: 80,
+                height: 80,
                 child: Center(
-                    child: Text(
-                  "Primary Color",
-                  style: TextStyle(fontSize: 10),
-                )),
+                  child: InkWell(
+                    onTap: () {
+                      showColorPicker(primaryColor, "primaryColor");
+                    },
+                    child: Center(
+                        child: Text(
+                      "Primary Color",
+                      style: TextStyle(fontSize: 10),
+                    )),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: secondaryColor),
-            width: 80,
-            height: 80,
-            child: Center(
-              child: InkWell(
-                onTap: () {
-                  showColorPicker(secondaryColor,"secondaryColor");
-                },
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: secondaryColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 5.0,
+                        spreadRadius: 1.0,
+                      ),
+                    ]),
+                width: 80,
+                height: 80,
                 child: Center(
-                    child: Text(
-                  "Secondary Color",
-                  style: TextStyle(fontSize: 10),
-                )),
+                  child: InkWell(
+                    onTap: () {
+                      showColorPicker(secondaryColor, "secondaryColor");
+                    },
+                    child: Center(
+                        child: Text(
+                      "Secondary Color",
+                      style: TextStyle(fontSize: 10),
+                    )),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        SizedBox(
-          height: 50,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: thirdColor),
-            width: 80,
-            height: 80,
-            child: Center(
-              child: InkWell(
-                onTap: () {
-                  showColorPicker(thirdColor,"thirdColor");
-                },
+            SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: thirdColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 5.0,
+                        spreadRadius: 1.0,
+                      ),
+                    ]),
+                width: 80,
+                height: 80,
                 child: Center(
-                    child: Text(
-                  "Third Color",
-                  style: TextStyle(fontSize: 10),
-                )),
+                  child: InkWell(
+                    onTap: () {
+                      showColorPicker(thirdColor, "thirdColor");
+                    },
+                    child: Center(
+                        child: Text(
+                      "Third Color",
+                      style: TextStyle(fontSize: 10),
+                    )),
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ],
     );
   }
 
-  Widget getTextFormFieldTitle() {
+  Widget getTextFormField(String Value) {
     return TextFormField(
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          labelText: 'Enter Service Title',
-          border: OutlineInputBorder(),
-        ),
-        onChanged: (val) {
-          setState(() => titleController = val);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        });
-  }
-
-  Widget getTextFormFieldContent() {
-    return TextFormField(
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          labelText: 'Enter Service Content',
-          border: OutlineInputBorder(),
-        ),
-        onChanged: (val) {
-          setState(() => contentController = val);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        });
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        labelText: 'Enter Request ${Value}',
+        border: OutlineInputBorder(),
+      ),
+      onChanged: (val) {
+        switch (Value) {
+          case "Title":
+            {
+              setState(() => titleController = val);
+            }
+            break;
+          case "Content":
+            {
+              setState(() => contentController = val);
+            }
+            break;
+        }
+      },
+    );
   }
 }

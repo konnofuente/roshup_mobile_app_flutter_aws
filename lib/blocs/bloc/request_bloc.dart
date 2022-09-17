@@ -24,7 +24,6 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         allRequests: List.from(state.allRequests)..add(event.request)));
     try {
       final newRequest = event.request;
-
       final request = ModelMutations.create(newRequest);
       final response = await Amplify.API.mutate(request: request).response;
 

@@ -30,7 +30,7 @@ class EditPhoneFormPageState extends State<EditPhoneFormPage> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         return Scaffold(
-            appBar: buildAppBar(context),
+            appBar: buildAppBar("Edit PhoneNumber"),
             body: Form(
               key: _formKey,
               child: Column(

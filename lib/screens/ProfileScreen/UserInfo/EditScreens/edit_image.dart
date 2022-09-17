@@ -25,7 +25,7 @@ class _EditImagePageState extends State<EditImagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar('Edit Image'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,

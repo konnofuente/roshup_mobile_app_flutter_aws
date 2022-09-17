@@ -32,7 +32,7 @@ class EditNameFormPageState extends State<EditNameFormPage> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         return Scaffold(
-            appBar: buildAppBar(context),
+            appBar: buildAppBar("Edit Email"),
             body: Form(
               key: _formKey,
               child: Column(

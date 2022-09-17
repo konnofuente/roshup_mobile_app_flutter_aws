@@ -16,11 +16,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Widget? screenView;
   DrawerIndex? drawerIndex;
+  int selectedPage = 0;
+  final pages = [ServiceScreen(), ActivityScreen(), ChatScreen(),ProfileScreen()];
+  bool isBottomDrawer = true;
 
   @override
   void initState() {
     drawerIndex = DrawerIndex.HOME;
-    screenView =  ServiceScreen();
+    screenView = ServiceScreen();
     super.initState();
   }
 
@@ -32,20 +35,41 @@ class _HomeScreenState extends State<HomeScreen> {
         top: false,
         bottom: false,
         child: Scaffold(
-          backgroundColor: Color.fromARGB(255, 24, 156, 232),
-          body: DrawerUserController(
-            screenIndex: drawerIndex,
-            drawerWidth: MediaQuery.of(context).size.width * 0.75,
-            onDrawerCall: (DrawerIndex drawerIndexdata) {
-              changeIndex(drawerIndexdata);
-              //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
-            },
-            screenView: screenView,
-            //we replace screen view as we need on navigate starting screens like MyHomeScreen, HelpScreen, FeedbackScreen, etc...
-          ),
-        ),
+            backgroundColor: Color.fromARGB(255, 24, 156, 232),
+            body: DrawerUserController(
+              screenIndex: drawerIndex,
+              drawerWidth: MediaQuery.of(context).size.width * 0.75,
+              onDrawerCall: (DrawerIndex drawerIndexdata) {
+                changeIndex(drawerIndexdata);
+                isBottomDrawer = false;
+                //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
+              },
+              screenView: isBottomDrawer ? pages[selectedPage] : screenView,
+              //we replace screen view as we need on navigate starting screens like MyHomeScreen, HelpScreen, FeedbackScreen, etc...
+            ),
+            bottomNavigationBar: getBottomTab()),
       ),
     );
+  }
+
+  Widget getBottomTab() {
+    return BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: selectedPage,
+        fixedColor: Colors.blueAccent,
+        unselectedItemColor: Color(0xFF757575),
+        onTap: (position) {
+          setState(() {
+            isBottomDrawer = true;
+            selectedPage = position;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.supervisor_account_rounded), label: "Activity"),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings")
+        ]);
   }
 
   void changeIndex(DrawerIndex drawerIndexdata) {

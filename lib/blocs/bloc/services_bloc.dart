@@ -139,12 +139,6 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
         return alert;
       },
     );
-    // Widget okButton = FlatButton(
-    //   child: Text("OK"),
-    //   onPressed: () {
-    //     Navigator.pop(context);
-    //   },
-    // );
   }
 
   Future<FutureOr<void>> _onAddRequestService
