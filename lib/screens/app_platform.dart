@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc/services_bloc.dart';
 import '../blocs/bloc/user_bloc.dart';
+import '../blocs/request_export.dart';
+import '../models/Request.dart';
 import '../models/Service.dart';
 import '../models/User.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -30,7 +32,8 @@ class _AppPlatformState extends State<AppPlatform> {
 
   Future<void> loadAppConfig() async {
     await fetchUserInfo();
-    queryListItems();
+    queryServiceList();
+    queryRequestList();
     rememberCurrentDevice();
   }
 
@@ -71,7 +74,7 @@ class _AppPlatformState extends State<AppPlatform> {
     }
   }
 
-  Future<void> queryListItems() async {
+  Future<void> queryServiceList() async {
     try {
       final request = ModelQueries.list(Service.classType);
       final response = await Amplify.API.query(request: request).response;
@@ -85,6 +88,23 @@ class _AppPlatformState extends State<AppPlatform> {
         ..emit(ServicesState(allService: Services));
     } on ApiException catch (e) {
       print('Could not retrieve Service from api!!!!!!!!!!11111 $e');
+    }
+  }
+
+  Future<void> queryRequestList() async {
+    try {
+      final request = ModelQueries.list(Request.classType);
+      final response = await Amplify.API.query(request: request).response;
+
+      final Requests = response.data!.items;
+      if (Requests == null) {
+        print('errors: ${response.errors}');
+      }
+      // ignore: avoid_single_cascade_in_expression_statements, use_build_context_synchronously
+      Provider.of<RequestBloc>(context, listen: false)
+        ..emit(RequestState(allRequests: Requests));
+    } on ApiException catch (e) {
+      print('Could not retrieve Request from api!!!!!!!!!!11111 $e');
     }
   }
 

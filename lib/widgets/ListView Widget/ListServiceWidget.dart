@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/ProfileScreen/ServiceInfo/service_edit.dart';
 
-import '../models/Service.dart';
+import '../../models/Service.dart';
 
 
 class ListServiceWidget extends StatelessWidget {
@@ -15,7 +15,7 @@ class ListServiceWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Card(
         elevation: 0,
-        color: Colors.cyan,
+        color: Color.fromARGB(255, 88, 169, 210),
         shadowColor: Color.fromARGB(31, 8, 8, 8),
         child: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -2,6 +2,7 @@ import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/amplifyconfiguration.dart';
@@ -44,9 +45,13 @@ class _MyPrepaState extends State<MyPrepa> {
     final datastorePlugin =
         AmplifyDataStore(modelProvider: ModelProvider.instance);
     final api = AmplifyAPI(modelProvider: ModelProvider.instance);
-    await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.addPlugin(datastorePlugin);
-    await Amplify.addPlugin(api);
+    final storage = AmplifyStorageS3();
+    final auth = AmplifyAuthCognito();
+    await Amplify.addPlugins([auth, datastorePlugin, storage, api]);
+    // await Amplify.addPlugin(auth);
+    // await Amplify.addPlugin(datastorePlugin);
+    // await Amplify.addPlugin(storage);
+    // await Amplify.addPlugin(api);
 
     // Once Plugins are added, configure Amplify
     await Amplify.configure(amplifyconfig);
@@ -81,8 +86,7 @@ class _MyPrepaState extends State<MyPrepa> {
   Future<void> _isSignedIn() async {
     final session = await Amplify.Auth.fetchAuthSession();
     isSign = session.isSignedIn;
-    Provider.of<AppStatus>(context, listen: false)
-        .changeUserStatus(isSign);
+    Provider.of<AppStatus>(context, listen: false).changeUserStatus(isSign);
     print('is sign in state is ${isSign}');
   }
 

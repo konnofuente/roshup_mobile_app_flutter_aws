@@ -10,17 +10,17 @@ import 'package:roshup_mobile_app_flutter_aws/models/ModelProvider.dart';
 import '../../blocs/bloc/request_bloc.dart';
 import '../../blocs/bloc/services_event.dart';
 import '../../blocs/bloc/user_state.dart';
-import '../ServiceScreen/design_course_app_theme.dart';
+import 'design_course_app_theme.dart';
 
-class RequestScreen extends StatefulWidget {
+class SendRequestScreen extends StatefulWidget {
   final Service service;
 
-  const RequestScreen({super.key, required this.service});
+  const SendRequestScreen({super.key, required this.service});
   @override
-  RequestScreenState createState() => RequestScreenState();
+  SendRequestScreenState createState() => SendRequestScreenState();
 }
 
-class RequestScreenState extends State<RequestScreen> {
+class SendRequestScreenState extends State<SendRequestScreen> {
   String dropdownvalue = 'pdf';
   late String fileName;
   late String filePath;
@@ -35,7 +35,8 @@ class RequestScreenState extends State<RequestScreen> {
   FilePickerResult? result;
   PlatformFile? file;
   List<File> files = [];
-  late String titleController = '', contentController = '';
+  late String requestTitle = '${widget.service.title} Request',
+      requestContent = '';
   double minPriceController = 0, maxPriceController = 0;
   final _formKey = GlobalKey<FormState>();
   List<String> formTypes = [];
@@ -44,7 +45,6 @@ class RequestScreenState extends State<RequestScreen> {
   bool isTitle = false;
   bool isContent = false;
   bool isColorPicker = false;
-  // create some values
   Color pickerColor = Color(0xff443a49);
   Color primaryColor = Color.fromARGB(255, 255, 255, 255);
   Color secondaryColor = Color.fromARGB(255, 255, 255, 255);
@@ -107,8 +107,7 @@ class RequestScreenState extends State<RequestScreen> {
             "The Variose Color Theme in this request are \n Primary Color:$primaryColor \n Secondary Color:$secondaryColor \n Third Color:$thirdColor"
         : null;
 
-    FinalInstruction = "$contentController $FormatInst $ColorInst";
-    print(FinalInstruction);
+    FinalInstruction = "$requestContent $FormatInst $ColorInst";
   }
 
   void sendRequest(BuildContext context, User user, Service? service,
@@ -166,9 +165,9 @@ class RequestScreenState extends State<RequestScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      isTitle
-                                          ? getTextFormField("Title")
-                                          : Container(),
+                                      // isTitle
+                                      //     ? getTextFormField("Title")
+                                      //     : Container(),
                                       SizedBox(height: 10),
                                       isContent
                                           ? getTextFormField("Content")
@@ -198,11 +197,11 @@ class RequestScreenState extends State<RequestScreen> {
                             ),
                           ),
                           onPressed: () {
-                            requestInstruction();                           
+                            requestInstruction();
                             User user = Userstate.allUsers[0];
                             if (_formKey.currentState!.validate()) {
                               sendRequest(context, user, widget.service,
-                                  titleController, contentController);
+                                  requestTitle, requestContent);
                             }
                           },
                         )
@@ -455,12 +454,12 @@ class RequestScreenState extends State<RequestScreen> {
         switch (Value) {
           case "Title":
             {
-              setState(() => titleController = val);
+              setState(() => requestTitle = val);
             }
             break;
           case "Content":
             {
-              setState(() => contentController = val);
+              setState(() => requestContent = val);
             }
             break;
         }

@@ -7,7 +7,7 @@ import '../../models/Request.dart';
 
 
 class ListActivityScreen extends StatelessWidget {
-  final Request request;
+  final Request? request;
   const ListActivityScreen({Key? key, required this.request}) : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class ListActivityScreen extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Card(
         elevation: 0,
-        color: Colors.cyan,
+        color: Color.fromARGB(255, 88, 169, 210),
         shadowColor: Color.fromARGB(31, 8, 8, 8),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -37,7 +37,7 @@ class ListActivityScreen extends StatelessWidget {
             ),
         ),
         title: Text(
-          request.title,
+          request!.title,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         // subtitle: Row(

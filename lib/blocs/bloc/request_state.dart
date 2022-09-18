@@ -1,7 +1,7 @@
 part of 'request_bloc.dart';
 
 class RequestState extends Equatable {
-  final List<Request> allRequests;
+  final List<Request?> allRequests;
   const RequestState(
     {this.allRequests = const <Request>[],});
 

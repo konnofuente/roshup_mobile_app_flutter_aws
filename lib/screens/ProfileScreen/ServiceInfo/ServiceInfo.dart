@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../blocs/bloc_export.dart';
-import '../../../widgets/ListServiceWidget.dart';
+import '../../../widgets/ListView Widget/ListServiceWidget.dart';
 
 class ServiceInfo extends StatefulWidget {
   const ServiceInfo({Key? key}) : super(key: key);

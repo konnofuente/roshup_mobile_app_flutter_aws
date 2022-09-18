@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:roshup_mobile_app_flutter_aws/screens/Request/request_screen.dart';
+import 'package:roshup_mobile_app_flutter_aws/screens/ServiceScreen/send_request_screen.dart';
 import '../../models/Service.dart';
 import 'design_course_app_theme.dart';
 
@@ -217,7 +217,7 @@ class _ServiceInfoScreenState extends State<ServiceInfoScreen>
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      RequestScreen(service: widget.service,)),
+                                                      SendRequestScreen(service: widget.service,)),
                                             );
                                             
                                           },
