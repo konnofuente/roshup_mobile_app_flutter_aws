@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/ActivityScreen/activity_datails.dart';
 import 'package:roshup_mobile_app_flutter_aws/screens/ProfileScreen/ServiceInfo/service_edit.dart';
@@ -40,18 +42,21 @@ class ListActivityScreen extends StatelessWidget {
           request!.title,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        // subtitle: Row(
-        //   children: <Widget>[
-        //     Text("Price:", style: TextStyle(color: Color.fromARGB(255, 247, 247, 95),fontWeight:FontWeight.w500)),
-        //     Text(service!.priceRanges![0].price.toString(), style: TextStyle(color: Colors.white))
-        //   ],
-        // ),
-        trailing:
-            Column(
-              children: [
-                Icon(Icons.edit, color: Colors.white, size: 35.0),
-              ],
-            ))
+        
+        subtitle: Row(
+          children: <Widget>[
+            Text("Service:", style: TextStyle(color: Color.fromARGB(255, 247, 247, 95),fontWeight:FontWeight.w500)),
+            request!.service !=null ?
+            Text(request!.service!.title, style: TextStyle(color: Colors.white)) :Container()
+          ],
+        ),
+        // trailing:
+        //     Column(
+        //       children: [
+        //         Icon(Icons.edit, color: Colors.white, size: 35.0),
+        //       ],
+        //     )
+            )
         ),
       ),
     );

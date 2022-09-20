@@ -1,4 +1,9 @@
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../blocs/bloc_export.dart';
+import '../../models/ModelProvider.dart';
 import '../home/app_theme.dart';
 import 'design_course_app_theme.dart';
 import 'all_service_list_view.dart';
@@ -9,6 +14,29 @@ class ServiceScreen extends StatefulWidget {
 }
 
 class _ServiceScreenState extends State<ServiceScreen> {
+  @override
+  void initState() {
+    queryServiceList();
+    super.initState();
+  }
+
+  Future<void> queryServiceList() async {
+    try {
+      final request = ModelQueries.list(Service.classType);
+      final response = await Amplify.API.query(request: request).response;
+
+      final Services = response.data!.items;
+      if (Services == null) {
+        print('errors: ${response.errors}');
+      }
+      // ignore: avoid_single_cascade_in_expression_statements, use_build_context_synchronously
+      Provider.of<ServicesBloc>(context, listen: false)
+        ..emit(ServicesState(allService: Services));
+    } on ApiException catch (e) {
+      print('Could not retrieve Service from api!!!!!!!!!!11111 $e');
+    }
+  }
+
   bool multiple = true;
   @override
   Widget build(BuildContext context) {
@@ -61,15 +89,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
           ),
           Flexible(
             child: AllServiceListView(
-              callBack: () {
-              },
+              callBack: () {},
             ),
           )
         ],
       ),
     );
   }
-
 
   Widget appBar() {
     var brightness = MediaQuery.of(context).platformBrightness;
@@ -117,4 +143,3 @@ class _ServiceScreenState extends State<ServiceScreen> {
     );
   }
 }
-

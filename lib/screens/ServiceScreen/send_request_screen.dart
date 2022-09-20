@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc/services_bloc.dart';
 import 'package:roshup_mobile_app_flutter_aws/blocs/bloc/user_bloc.dart';
 import 'package:roshup_mobile_app_flutter_aws/models/ModelProvider.dart';
@@ -34,14 +37,15 @@ class SendRequestScreenState extends State<SendRequestScreen> {
   String FinalInstruction = " ";
   FilePickerResult? result;
   PlatformFile? file;
-  List<File> files = [];
   late String requestTitle = '${widget.service.title} Request',
       requestContent = '';
   double minPriceController = 0, maxPriceController = 0;
   final _formKey = GlobalKey<FormState>();
+  List<File> files = [];
   List<String> formTypes = [];
   List<String> paperFormats = [];
   List<String> colorTheme = [];
+  List<RosFile> assets = [];
   bool isTitle = false;
   bool isContent = false;
   bool isColorPicker = false;
@@ -78,7 +82,7 @@ class SendRequestScreenState extends State<SendRequestScreen> {
   }
 
   void _openFileExplorer() async {
-    print(formTypes);
+    // print(formTypes);
     setState(() => isLoadingPath = true);
     try {
       paths = (await FilePicker.platform.pickFiles(
@@ -90,9 +94,125 @@ class SendRequestScreenState extends State<SendRequestScreen> {
     }
     setState(() {
       if (paths != null) {
+        // paths!.files.map((e) => e.path );
         files = paths!.paths.map((path) => File(path!)).toList();
       }
     });
+  }
+
+  Future<void> uploadFile(PlatformFile platformFile) async {
+    //  // Select a file from the device
+    //   final result = await FilePicker.platform.pickFiles();
+
+    //   if (result == null) {
+    //     print('No file selected');
+    //     return;
+    //   }
+
+    //   //Upload file with its filename as the key
+    //   final platformFile = result.files.single;
+    final path = platformFile.path!;
+
+    final date = DateTime.now().toString();
+    final key = path + date;
+
+    final file = File(path);
+    try {
+      final UploadFileResult result = await Amplify.Storage.uploadFile(
+        local: file,
+        key: key,
+        onProgress: (progress) {
+          print('Fraction completed: ${progress.getFractionCompleted()}');
+        },
+      );
+      print('Successfully uploaded file: ${result.key}');
+    } on StorageException catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+  Future<void> createAndUploadFilePublic() async {
+    // Create a dummy file
+    final exampleString = 'Example file contents';
+    final tempDir = await getTemporaryDirectory();
+    final exampleFile = File(tempDir.path + '/example.txt')
+      ..createSync()
+      ..writeAsStringSync(exampleString);
+    // Upload the file to S3
+    try {
+      final UploadFileResult result = await Amplify.Storage.uploadFile(
+        local: exampleFile,
+        key: 'ExampleKey',
+        options: S3UploadFileOptions(
+          accessLevel: StorageAccessLevel.guest,
+        ),
+      );
+      print('Successfully uploaded file: ${result.key}');
+    } on StorageException catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+  void uploadMultipleFile() {
+
+    if (paths != null) {
+      paths!.files.map((platformFile) async {
+        final path = platformFile.path!;
+
+        final date = DateTime.now().toString();
+        final key = path + date;
+
+        final file = File(path)..createSync()..writeAsStringSync(path);
+        try {
+          final UploadFileResult result = await Amplify.Storage.uploadFile(
+            local: file,
+            key: key,
+            options: S3UploadFileOptions(
+              accessLevel: StorageAccessLevel.guest,
+            ),
+            onProgress: (progress) {
+              print('Fraction completed: ${progress.getFractionCompleted()}');
+            },
+          );
+          print('Successfully uploaded file: ${result.key}');
+        } on StorageException catch (e) {
+          print('Error uploading file: $e');
+        }
+
+        assets.add(RosFile(
+            s3Key: key,
+            type: platformFile.extension,
+            size: platformFile.size.toDouble(),
+            version: 1));
+      });
+    } else {
+      print("odone funvtion");
+    }
+     print("no file selected");
+  }
+
+  void sendRequest(BuildContext context, User user, Service? service,
+      String title, String content) {
+    requestInstruction();
+    final request = Request(
+      title: title,
+      content: FinalInstruction,
+      status: RequestStatus.PENDING,
+      user: user,
+      assets: assets,
+      service: service,
+      messages: [],
+    );
+
+    List<Request> requestService = [];
+    requestService.add(request);
+
+    context
+        .read<RequestBloc>()
+        .add(AddRequest(request: request, context: context));
+
+    context.read<ServicesBloc>().add(AddRequestServices(
+        service: service!, context: context, requestService: requestService));
   }
 
   void requestInstruction() {
@@ -108,29 +228,6 @@ class SendRequestScreenState extends State<SendRequestScreen> {
         : null;
 
     FinalInstruction = "$requestContent $FormatInst $ColorInst";
-  }
-
-  void sendRequest(BuildContext context, User user, Service? service,
-      String title, String content) {
-    requestInstruction();
-    final request = Request(
-      title: title,
-      content: FinalInstruction,
-      status: RequestStatus.PENDING,
-      user: user,
-      service: service,
-      messages: [],
-    );
-
-    List<Request> requestService = [];
-    requestService.add(request);
-
-    context
-        .read<RequestBloc>()
-        .add(AddRequest(request: request, context: context));
-
-    context.read<ServicesBloc>().add(AddRequestServices(
-        service: service!, context: context, requestService: requestService));
   }
 
   @override
@@ -165,9 +262,6 @@ class SendRequestScreenState extends State<SendRequestScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      // isTitle
-                                      //     ? getTextFormField("Title")
-                                      //     : Container(),
                                       SizedBox(height: 10),
                                       isContent
                                           ? getTextFormField("Content")
@@ -198,10 +292,17 @@ class SendRequestScreenState extends State<SendRequestScreen> {
                           ),
                           onPressed: () {
                             requestInstruction();
+                            uploadMultipleFile();
+                            print(assets);
                             User user = Userstate.allUsers[0];
                             if (_formKey.currentState!.validate()) {
-                              sendRequest(context, user, widget.service,
-                                  requestTitle, requestContent);
+                              if (paths != null ||
+                                  assets.length < paths!.files.length) {
+                                print("could not upload local file");
+                              } else {
+                                sendRequest(context, user, widget.service,
+                                    requestTitle, requestContent);
+                              }
                             }
                           },
                         )
@@ -271,13 +372,13 @@ class SendRequestScreenState extends State<SendRequestScreen> {
     );
   }
 
-  Widget getFormatDropdownButton(List<String> item) {
+  Widget getFormatDropdownButton(List<String> items) {
     return Column(
       children: [
         displayHeading("Select Paper Format", 15),
-        DropdownButton(
-            value: paperformat,
-            items: item
+        DropdownButton<String>(
+            value: items[0],
+            items: items
                 .map((String item) =>
                     DropdownMenuItem<String>(child: Text(item), value: item))
                 .toList(),

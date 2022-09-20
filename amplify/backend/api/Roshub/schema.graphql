@@ -23,24 +23,22 @@ type User @model @auth(rules: [{allow: owner}]) {
   requestSubmiteds: [Request] @hasMany(indexName: "byUser")
 }
 
+
+
 type Request @model @auth(rules: [{allow: owner}]) {
   id: ID! @primaryKey
-  parentId: ID @index(name: "byParent", queryField: "requestByParent")
+  parentId: ID @index(name: "byParent")
   parent: Request @belongsTo(fields: ["parentId"])
   subRequests: [Request] @hasMany(indexName: "byParent")
   title: String!
   content: String
   status: RequestStatus!
-  # userId: ID 
   rosProviderId: ID 
-  userId: ID @index(name: "byUser", queryField: "requestByUser")
-  # rosProviderId: ID @index(name: "byRosProvider", queryField: "requestByRosProvider")
+  userId: ID! @index(name: "byUser")
   user: User @belongsTo(fields: ["userId"])
-  # rosProvider: User @belongsTo(fields: ["rosProviderId"])
-
-  serviceId: ID @index(name: "byService", queryField: "requestByService")
+  serviceId: ID! @index(name: "byService")
   service: Service @belongsTo(fields: ["serviceId"])
-  paymentId: ID @index(name: "byPayment", queryField: "requestByPayment")
+  paymentId: ID! @index(name: "byPayment")
   payment: Payment @belongsTo(fields: ["paymentId"])
   assets: [RosFile]
   outputs: [RosFile]
@@ -62,7 +60,7 @@ type RoshubPoint @model @auth(rules: [{allow: owner}]) {
   id: ID! @primaryKey
   title: String!
   comments: [Comment]
-  userId: ID! @index(name: "byUserRoshubPoint", queryField: "roshubPointByUser")
+  userId: ID! @index(name: "byUserRoshubPoint")
   user: User @belongsTo(fields: ["userId"])
   services: [Service] @manyToMany(relationName: "RoshubPointService")
   paymentType: [PaymentType]
@@ -99,6 +97,13 @@ type Location {
   addresse: String!
 }
 
+type RosFile {
+  s3Key: String!
+  type: String
+  size: Float
+  version: Int!
+}
+
 type RosImage {
   s3Key: String!
   type: String!
@@ -114,13 +119,6 @@ type PriceRange {
   min: Float
   max: Float
   price: Float
-}
-
-type RosFile {
-  s3Key: String!
-  type: String
-  size: Float
-  version: Int!
 }
 
 type Message {

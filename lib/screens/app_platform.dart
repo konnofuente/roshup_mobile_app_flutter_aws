@@ -32,8 +32,6 @@ class _AppPlatformState extends State<AppPlatform> {
 
   Future<void> loadAppConfig() async {
     await fetchUserInfo();
-    queryServiceList();
-    queryRequestList();
     rememberCurrentDevice();
   }
 
@@ -74,39 +72,8 @@ class _AppPlatformState extends State<AppPlatform> {
     }
   }
 
-  Future<void> queryServiceList() async {
-    try {
-      final request = ModelQueries.list(Service.classType);
-      final response = await Amplify.API.query(request: request).response;
 
-      final Services = response.data!.items;
-      if (Services == null) {
-        print('errors: ${response.errors}');
-      }
-      // ignore: avoid_single_cascade_in_expression_statements, use_build_context_synchronously
-      Provider.of<ServicesBloc>(context, listen: false)
-        ..emit(ServicesState(allService: Services));
-    } on ApiException catch (e) {
-      print('Could not retrieve Service from api!!!!!!!!!!11111 $e');
-    }
-  }
 
-  Future<void> queryRequestList() async {
-    try {
-      final request = ModelQueries.list(Request.classType);
-      final response = await Amplify.API.query(request: request).response;
-
-      final Requests = response.data!.items;
-      if (Requests == null) {
-        print('errors: ${response.errors}');
-      }
-      // ignore: avoid_single_cascade_in_expression_statements, use_build_context_synchronously
-      Provider.of<RequestBloc>(context, listen: false)
-        ..emit(RequestState(allRequests: Requests));
-    } on ApiException catch (e) {
-      print('Could not retrieve Request from api!!!!!!!!!!11111 $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

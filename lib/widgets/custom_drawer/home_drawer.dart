@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../blocs/bloc/user_bloc.dart';
 import '../../blocs/bloc/user_state.dart';
 import '../../blocs/bloc_export.dart';
 import '../../screens/home/app_theme.dart';
@@ -43,7 +41,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
         index: DrawerIndex.Help,
         labelName: 'Activity',
         isAssetsImage: true,
-        icon: const Icon(Icons.supervisor_account_rounded),
+        icon: const Icon(Icons.access_time),
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
